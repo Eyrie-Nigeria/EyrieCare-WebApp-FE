@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { fadeInUp, scaleIn } from '@/lib/animations';
 
@@ -38,9 +39,11 @@ export default function CTASection() {
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center"
               >
-                <Button size="lg" variant="gradient" className="min-w-40">
-                  Sign Up Now
-                </Button>
+                <Link href="/signup">
+                  <Button size="lg" variant="gradient" className="min-w-40">
+                    Sign Up Now
+                  </Button>
+                </Link>
                 <Button size="lg" variant="secondary" className="min-w-40">
                   Contact Sales
                 </Button>

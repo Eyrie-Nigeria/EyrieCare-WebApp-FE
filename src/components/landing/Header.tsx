@@ -55,12 +55,16 @@ export default function Header() {
           </nav>
 
           <div className="flex gap-3">
-            <Button variant="ghost" className="hidden md:flex">
-              Login
-            </Button>
-            <Button>
-              Sign Up
-            </Button>
+            <Link href="/login">
+              <Button variant="ghost" className="hidden md:flex">
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button>
+                Sign Up
+              </Button>
+            </Link>
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -96,12 +100,16 @@ export default function Header() {
                   </a>
                 ))}
                 <div className="flex flex-col gap-3 pt-4">
-                  <Button variant="outline" className="w-full py-6">
-                    Login
-                  </Button>
-                  <Button className="w-full py-6">
-                    Sign Up
-                  </Button>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full py-6">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="w-full py-6">
+                      Sign Up
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fadeInUp, scaleIn, staggerContainer } from '@/lib/animations';
@@ -33,9 +34,11 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-3">
-              <Button size="lg" variant="gradient">
-                Get Started for Free
-              </Button>
+              <Link href="/signup">
+                <Button size="lg" variant="gradient">
+                  Get Started for Free
+                </Button>
+              </Link>
               <Button size="lg" variant="outline">
                 View Demo
               </Button>

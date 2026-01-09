@@ -4,18 +4,24 @@
   /* Brand Colors from Stitch Design */
   --color-primary: #13ecb6;
   --color-primary-hover: #0fd4a3;
+  --color-primary-auth: #2bee79;
+  --color-primary-auth-hover: #24d36b;
 
   --color-background-light: #f6f8f8;
   --color-background-dark: #10221d;
+  --color-background-auth-deep: #102217;
 
   --color-surface-light: #ffffff;
   --color-surface-dark: #152d26;
+  --color-surface-auth-dark: #1c3326;
 
   --color-text-main: #0d1b18;
   --color-text-muted: #4c9a86;
+  --color-text-auth-light-green: #92c9a8;
 
   --color-border-light: #e7f3f0;
   --color-border-dark: #1e3a34;
+  --color-border-auth-green: #326747;
 
   /* Semantic Mappings referencing CSS variables defined in @layer base */
   --color-background: var(--background);
@@ -79,5 +85,15 @@
 @layer utilities {
   .text-gradient {
     @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-teal-400;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-border-auth-green rounded-full;
   }
 }
