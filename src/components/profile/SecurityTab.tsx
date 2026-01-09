@@ -8,7 +8,7 @@ export default function SecurityTab() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Password Change Card */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
                         <Key className="w-5 h-5" />
@@ -54,7 +54,7 @@ export default function SecurityTab() {
             </div>
 
             {/* Two-Factor Authentication */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg">
@@ -67,13 +67,13 @@ export default function SecurityTab() {
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" />
-                        <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard"></div>
+                        <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard"></div>
                     </label>
                 </div>
             </div>
 
             {/* Active Sessions */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg">
                         <History className="w-5 h-5" />

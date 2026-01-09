@@ -3,12 +3,13 @@
 import { Bell, Moon, Globe, Palette, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { SettingItemProps } from './types';
 
 export default function PreferencesTab() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Visual Preferences */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg">
                         <Palette className="w-5 h-5" />
@@ -39,14 +40,14 @@ export default function PreferencesTab() {
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" className="sr-only peer" />
-                            <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard transition-colors"></div>
+                            <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard transition-colors"></div>
                         </label>
                     </div>
                 </div>
             </div>
 
             {/* Notifications Settings */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg">
                         <Bell className="w-5 h-5" />
@@ -73,7 +74,7 @@ export default function PreferencesTab() {
             </div>
 
             {/* Language & Regional */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg">
                         <Globe className="w-5 h-5" />
@@ -109,7 +110,7 @@ export default function PreferencesTab() {
     );
 }
 
-function SettingItem({ title, description, defaultChecked = false }: { title: string, description: string, defaultChecked?: boolean }) {
+function SettingItem({ title, description, defaultChecked = false }: SettingItemProps) {
     return (
         <div className="flex items-center justify-between py-1 group cursor-pointer">
             <div className="flex flex-col">
@@ -118,7 +119,7 @@ function SettingItem({ title, description, defaultChecked = false }: { title: st
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked={defaultChecked} />
-                <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard transition-colors"></div>
+                <div className="w-11 h-6 bg-slate-200 dark:bg-card-dashboard-dark/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-dashboard transition-colors"></div>
             </label>
         </div>
     );

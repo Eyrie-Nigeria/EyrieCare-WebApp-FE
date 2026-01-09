@@ -3,11 +3,7 @@
 import Link from 'next/link';
 import { Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-interface TopHeaderProps {
-    onMenuClick?: () => void;
-    searchPlaceholder?: string;
-}
+import { TopHeaderProps } from './types';
 
 export default function TopHeader({
     onMenuClick,

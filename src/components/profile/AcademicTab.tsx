@@ -2,12 +2,13 @@
 
 import { GraduationCap, BookOpen, Award, BarChart4, ChevronRight, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { AcademicFieldProps, CertItemProps, ResultItemProps } from './types';
 
 export default function AcademicTab() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Current Academic Status */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg shadow-sm">
                         <GraduationCap className="w-5 h-5" />
@@ -32,7 +33,7 @@ export default function AcademicTab() {
 
             {/* Transcript & Certifications */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+                <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg shadow-sm">
                             <Award className="w-5 h-5" />
@@ -50,7 +51,7 @@ export default function AcademicTab() {
                     </div>
                 </div>
 
-                <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+                <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-2 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg shadow-sm">
                             <BarChart4 className="w-5 h-5" />
@@ -72,7 +73,7 @@ export default function AcademicTab() {
     );
 }
 
-function AcademicField({ label, value }: { label: string, value: string }) {
+function AcademicField({ label, value }: AcademicFieldProps) {
     return (
         <div className="flex flex-col gap-1.5 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-background-dashboard-dark/50 transition-colors">
             <span className="text-xs font-semibold text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark uppercase tracking-wide opacity-70">{label}</span>
@@ -81,7 +82,7 @@ function AcademicField({ label, value }: { label: string, value: string }) {
     );
 }
 
-function CertItem({ title, date }: { title: string, date: string }) {
+function CertItem({ title, date }: CertItemProps) {
     return (
         <div className="flex items-center justify-between p-3.5 rounded-lg bg-slate-50 dark:bg-background-dashboard-dark border border-slate-100 dark:border-card-dashboard-dark/20 group cursor-pointer hover:border-primary-dashboard/30 hover:shadow-md transition-all">
             <div className="flex items-center gap-3">
@@ -98,7 +99,7 @@ function CertItem({ title, date }: { title: string, date: string }) {
     );
 }
 
-function ResultItem({ subject, score }: { subject: string, score: string }) {
+function ResultItem({ subject, score }: ResultItemProps) {
     return (
         <div className="flex items-center justify-between p-3.5 rounded-lg bg-slate-50 dark:bg-background-dashboard-dark border border-slate-100 dark:border-card-dashboard-dark/20 group hover:border-slate-200 dark:hover:border-card-dashboard-dark transition-all">
             <span className="text-sm font-bold text-slate-700 dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{subject}</span>

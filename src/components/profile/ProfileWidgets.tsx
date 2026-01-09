@@ -2,12 +2,13 @@
 
 import { CheckCircle2, Circle, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PreferenceToggleProps } from './types';
 
 export default function ProfileWidgets() {
     return (
         <div className="flex flex-col gap-6">
             {/* Profile Strength Widget */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">Profile Strength</h4>
                     <span className="text-xs font-bold text-primary-dashboard bg-primary-dashboard/10 px-2 py-1 rounded-full">80%</span>
@@ -32,7 +33,7 @@ export default function ProfileWidgets() {
             </div>
 
             {/* Quick Preferences Widget */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-5">Quick Preferences</h4>
                 <div className="space-y-5">
                     <PreferenceToggle
@@ -66,7 +67,7 @@ export default function ProfileWidgets() {
     );
 }
 
-function PreferenceToggle({ label, sublabel, defaultChecked = false }: { label: string, sublabel: string, defaultChecked?: boolean }) {
+function PreferenceToggle({ label, sublabel, defaultChecked = false }: PreferenceToggleProps) {
     return (
         <div className="flex items-center justify-between group">
             <div className="flex flex-col">

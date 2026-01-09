@@ -8,7 +8,7 @@ export default function PersonalInfoForm() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Personal Details Card */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-slate-900 dark:text-white text-lg font-bold">Personal Details</h3>
                     <button className="text-primary-dashboard text-sm font-bold hover:underline transition-all">Edit</button>
@@ -50,7 +50,7 @@ export default function PersonalInfoForm() {
             </div>
 
             {/* Academic Info Card */}
-            <div className="bg-surface-dashboard-light dark:bg-surface-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-card-dashboard-dark transition-all duration-300">
+            <div className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-xl p-6 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
                 <h3 className="text-slate-900 dark:text-white text-lg font-bold mb-6">Academic Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">

@@ -16,8 +16,9 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/button';
+import { NavGroup, SidebarProps } from './types';
 
-const navGroups = [
+const navGroups: NavGroup[] = [
     {
         title: 'Academics',
         items: [
@@ -38,11 +39,6 @@ const navGroups = [
         ]
     }
 ];
-
-interface SidebarProps {
-    className?: string;
-    onClose?: () => void;
-}
 
 export default function Sidebar({ className, onClose }: SidebarProps) {
     const pathname = usePathname();

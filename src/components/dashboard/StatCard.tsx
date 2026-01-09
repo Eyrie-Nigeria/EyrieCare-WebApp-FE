@@ -1,18 +1,8 @@
 'use client';
 
-import { LucideIcon, TrendingUp } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/cn';
-
-interface StatCardProps {
-    label: string;
-    value: string | number;
-    percentage: number;
-    icon: LucideIcon;
-    trend?: string;
-    colorClass?: string;
-    iconBgClass?: string;
-    iconColorClass?: string;
-}
+import { StatCardProps } from './types';
 
 export default function StatCard({
     label,

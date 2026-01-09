@@ -1,8 +1,9 @@
 'use client';
 
 import { Play, PlusCircle, BarChart3 } from 'lucide-react';
+import { QuickAction } from './types';
 
-const actions = [
+const actions: QuickAction[] = [
     {
         title: 'Resume Last Case',
         description: 'Continue where you left off in Cardiology.',

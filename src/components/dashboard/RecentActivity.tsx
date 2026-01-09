@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { Activity } from './types';
 
-const activities = [
+const activities: Activity[] = [
     {
         title: 'Acute Coronary Syndrome',
         type: 'Case Study',
