@@ -19,11 +19,19 @@ const navItems = [
     { label: 'Saved Cases', href: '/dashboard/saved', icon: Bookmark },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+    className?: string;
+    onClose?: () => void;
+}
+
+export default function Sidebar({ className, onClose }: SidebarProps) {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden lg:flex w-72 flex-col justify-between bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-r border-slate-200 dark:border-card-dashboard-dark p-4 h-full shrink-0 z-20 transition-colors duration-200 font-dashboard">
+        <aside className={cn(
+            "w-72 flex-col justify-between bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-r border-slate-200 dark:border-card-dashboard-dark p-4 h-full shrink-0 z-20 transition-colors duration-200 font-dashboard",
+            className
+        )}>
             <div className="flex flex-col gap-8">
                 {/* Logo Section */}
                 <div className="flex gap-3 items-center px-2">
@@ -41,6 +49,7 @@ export default function Sidebar() {
                             <Link
                                 key={item.label}
                                 href={item.href}
+                                onClick={onClose}
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-3 rounded-lg transition-all group",
                                     isActive

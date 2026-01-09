@@ -3,12 +3,21 @@
 import { Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default function TopHeader() {
+interface TopHeaderProps {
+    onMenuClick?: () => void;
+}
+
+export default function TopHeader({ onMenuClick }: TopHeaderProps) {
     return (
         <header className="flex items-center justify-between whitespace-nowrap bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-b border-slate-200 dark:border-card-dashboard-dark px-6 py-4 shrink-0 z-10 transition-colors duration-200 font-dashboard shadow-sm">
             <div className="flex items-center gap-4 lg:hidden">
                 {/* Mobile Menu Trigger */}
-                <Button variant="ghost" size="icon" className="text-slate-900 dark:text-white">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-slate-900 dark:text-white"
+                    onClick={onMenuClick}
+                >
                     <Menu className="w-6 h-6" />
                 </Button>
             </div>
