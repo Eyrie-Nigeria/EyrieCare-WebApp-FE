@@ -1,194 +1,83 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
-  /* Green/Teal as Primary Color Palette (Medical Green Theme) */
-  --color-primary-50: #f0fdfa;
-  --color-primary-100: #ccfbf1;
-  --color-primary-200: #99f6e4;
-  --color-primary-300: #5eead4;
-  --color-primary-400: #2dd4bf;
-  --color-primary-500: #14b8a6;
-  --color-primary-600: #0d9488;
-  --color-primary-700: #0f766e;
-  --color-primary-800: #115e59;
-  --color-primary-900: #134e4a;
-  
-  /* Blue as Accent Color Palette */
-  --color-accent-50: #eff6ff;
-  --color-accent-100: #dbeafe;
-  --color-accent-200: #bfdbfe;
-  --color-accent-300: #93c5fd;
-  --color-accent-400: #60a5fa;
-  --color-accent-500: #3b82f6;
-  --color-accent-600: #2563eb;
-  --color-accent-700: #1d4ed8;
-  --color-accent-800: #1e40af;
-  --color-accent-900: #1e3a8a;
-  
-  /* Core Variables */
-  --color-primary: #2bee79;
-  --color-accent: #2563eb;
-  --color-background-light: #f0f7ff;
-  --color-background-dark: #102217;
+  /* Brand Colors from Stitch Design */
+  --color-primary: #13ecb6;
+  --color-primary-hover: #0fd4a3;
+
+  --color-background-light: #f6f8f8;
+  --color-background-dark: #10221d;
+
   --color-surface-light: #ffffff;
-  --color-surface-dark: #1c3326;
-  --color-bubble-dark: #234832;
-  --color-border-light: #e2e8f0;
-  --color-border-dark: #326747;
-  --color-text-muted: #92c9a8;
+  --color-surface-dark: #152d26;
 
-  /* Dashboard compatibility */
-  --color-text-light: #111827;
-  --color-text-dark: #f9fafb;
-  --color-accent-teal: #14b8a6;
-  --color-border-sidebar-light: #ebe7f3;
-  --color-border-sidebar-dark: #2d2a3b;
-  --color-hover-light: #f6f6f8;
-  --color-hover-dark: #252136;
+  --color-text-main: #0d1b18;
+  --color-text-muted: #4c9a86;
 
-  /* Font Families */
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  
-  /* Typography Scale */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  
-  --radius-default: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-full: 9999px;
-}
+  --color-border-light: #e7f3f0;
+  --color-border-dark: #1e3a34;
 
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+  /* Semantic Mappings referencing CSS variables defined in @layer base */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--color-primary);
 
-/* Material icons */
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-default: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
 }
 
 @layer base {
   :root {
-    --background: 240 247 255;
-    --foreground: 15 23 42;
+    --background: #f6f8f8;
+    --foreground: #0d1b18;
+    --card: #ffffff;
+    --card-foreground: #0d1b18;
+    --popover: #ffffff;
+    --popover-foreground: #0d1b18;
+    --border: #e7f3f0;
   }
-  
+
   .dark {
-    --background: 16 34 23;
-    --foreground: 146 201 168;
+    --background: #10221d;
+    --foreground: #ffffff;
+    --card: #152d26;
+    --card-foreground: #ffffff;
+    --popover: #152d26;
+    --popover-foreground: #ffffff;
+    --border: #1e3a34;
   }
-  
-  html {
-    font-family: var(--font-sans);
-    scroll-behavior: smooth;
+
+  * {
+    @apply border-border;
   }
-  
+
   body {
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
-    font-feature-settings: 'cv11', 'ss01';
-    font-variation-settings: 'opsz' 32;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  
-  /* Typography */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.025em;
-  }
-  
-  h1 {
-    font-size: 2.25rem;
-  }
-  
-  h2 {
-    font-size: 1.875rem;
-  }
-  
-  h3 {
-    font-size: 1.5rem;
-  }
-  
-  /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: rgb(226 232 240);
-  }
-  
-  .dark ::-webkit-scrollbar-track {
-    background: #1c3326;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: rgb(148 163 184);
-    border-radius: 5px;
-  }
-  
-  .dark ::-webkit-scrollbar-thumb {
-    background: #234832;
+    @apply bg-background text-foreground antialiased font-sans;
   }
 }
 
 @layer components {
-  .container {
-    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
-    max-width: 1200px;
-  }
-  
-  .medical-headline {
-    @apply text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-[-0.033em];
-    background: linear-gradient(135deg, #2bee79 0%, #0d9488 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .dark .medical-headline {
-    background: linear-gradient(135deg, #2bee79 0%, #92c9a8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
   .glass-effect {
-    @apply backdrop-blur-md bg-white/80 dark:bg-[#102217]/80 border border-white/20 dark:border-[#326747]/20;
+    @apply bg-background/95 backdrop-blur-sm border-b border-border;
+  }
+
+  .layout-container {
+    @apply w-full max-w-7xl mx-auto px-4 md:px-10;
   }
 }
 
 @layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-teal-400;
   }
 }
