@@ -46,6 +46,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 We follow a strict branching model to maintain code quality and stability.
 
+## 📄 Pull Request Template
+
+Please use our [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md) when submitting a PR.
+
 ### 1. Initial Setup
 Ensure you are always working with the latest code from the `dev` branch.
 
