@@ -17,6 +17,10 @@ const buttonVariants = cva(
           'bg-primary text-text-main shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all hover:scale-105',
         secondary:
           'border border-white/20 text-white hover:bg-white/10 transition-colors',
+        destructive:
+          'bg-red-500 text-white hover:bg-red-600 shadow-sm transition-colors',
+        dashboard:
+          'bg-primary-dashboard text-surface-dashboard-dark hover:bg-primary-dashboard-hover font-bold shadow-sm transition-colors',
       },
       size: {
         default: 'h-10 px-5 py-2',

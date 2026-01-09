@@ -1,13 +1,18 @@
 'use client';
 
+import Link from 'next/link';
 import { Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface TopHeaderProps {
     onMenuClick?: () => void;
+    searchPlaceholder?: string;
 }
 
-export default function TopHeader({ onMenuClick }: TopHeaderProps) {
+export default function TopHeader({
+    onMenuClick,
+    searchPlaceholder = "Search cases, tests..."
+}: TopHeaderProps) {
     return (
         <header className="flex items-center justify-between whitespace-nowrap bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-b border-slate-200 dark:border-card-dashboard-dark px-6 py-4 shrink-0 z-10 transition-colors duration-200 font-dashboard shadow-sm">
             <div className="flex items-center gap-4 lg:hidden">
@@ -23,9 +28,7 @@ export default function TopHeader({ onMenuClick }: TopHeaderProps) {
             </div>
 
             <div className="flex items-center gap-4">
-                <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
-                    Dashboard
-                </h2>
+                {/* Branding removed as it's in the sidebar */}
             </div>
 
             <div className="flex flex-1 justify-end items-center gap-4 md:gap-6">
@@ -37,7 +40,7 @@ export default function TopHeader({ onMenuClick }: TopHeaderProps) {
                         </div>
                         <input
                             className="flex w-full min-w-0 flex-1 bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-text-dashboard-secondary-dark px-2 text-sm font-normal h-full"
-                            placeholder="Search cases, tests..."
+                            placeholder={searchPlaceholder}
                         />
                     </div>
                 </div>
@@ -49,12 +52,12 @@ export default function TopHeader({ onMenuClick }: TopHeaderProps) {
                         <span className="absolute top-2 right-2 size-2 bg-primary-dashboard rounded-full border-2 border-surface-dashboard-light dark:border-surface-dashboard-dark"></span>
                     </button>
 
-                    <div className="flex items-center gap-2 cursor-pointer">
+                    <Link href="/profile" className="flex items-center gap-2 cursor-pointer group">
                         <div
-                            className="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-transparent hover:ring-primary-dashboard transition-all border border-slate-200 dark:border-card-dashboard-dark"
+                            className="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-transparent group-hover:ring-primary-dashboard transition-all border border-slate-200 dark:border-card-dashboard-dark"
                             style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYxwiTH8_6yubL0DhG14Yz014kmSM9FXdseWY2zX2jDmWKJ9Z8hr4urZn5yWZM4X6MTNgcXpXhSnPUHH28uZqPQ9pCISXdQU_acryGWO2d8Un0G5_0787xBxbj_Mm0EK5qeZ4gVRZp0WDL6O_GkYBcPU7VJtlOhv042-DbT3HcyF0yurRZD1xSG9qS1AKQy-8pLFkb9lDO8sI3C4uMdOLNemy6xx4Av-EkuPWdvaoCgHAU-GG2qwVi0ILtnMtpysH_ffE2XtHBd54")' }}
                         />
-                    </div>
+                    </Link>
                 </div>
             </div>
         </header>
