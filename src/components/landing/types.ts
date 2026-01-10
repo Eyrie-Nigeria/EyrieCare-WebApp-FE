@@ -1,31 +1,31 @@
 export interface Feature {
-    icon: any; // Using any for Lucide icons
-    title: string;
-    description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
 }
 
 export interface GalleryItem {
-    id: number;
-    url: string;
-    title: string;
-    subtitle: string;
+  id: number;
+  url: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface Stat {
-    value: string;
-    label: string;
-    icon: any;
+  value: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 export interface FooterLink {
-    label: string;
-    href: string;
+  label: string;
+  href: string;
 }
 
 export interface FooterLinks {
-    [category: string]: FooterLink[];
+  [category: string]: FooterLink[];
 }
 
 export interface Institution {
-    name: string;
+  name: string;
 }

@@ -23,12 +23,14 @@ EyrieCare is a modern medical student education platform designed to master clin
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Eyrie-Nigeria/eyriecare-webapp-fe.git
    cd eyriecare-webapp-fe
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    # or
@@ -51,6 +53,7 @@ We follow a strict branching model to maintain code quality and stability.
 Please use our [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md) when submitting a PR.
 
 ### 1. Initial Setup
+
 Ensure you are always working with the latest code from the `dev` branch.
 
 ```bash
@@ -59,6 +62,7 @@ git pull origin dev
 ```
 
 ### 2. Create a Feature Branch
+
 Always create your branches from `dev`. Use a descriptive name (e.g., `feat/login-page`, `fix/header-alignment`).
 
 ```bash
@@ -66,12 +70,15 @@ git checkout -b your-branch-name
 ```
 
 ### 3. Development
+
 Make your changes following the project's coding standards.
+
 - Use TypeScript for all new code.
 - Ensure proper linting (`npm run lint`).
 - Verify types (`npm run type-check`).
 
 ### 4. Commit Changes
+
 Use clear and descriptive commit messages.
 
 ```bash
@@ -80,6 +87,7 @@ git commit -m "feat: add clinical dashboard section"
 ```
 
 ### 5. Pull Request (PR)
+
 Push your branch and open a Pull Request targeting the **`dev`** branch.
 
 ```bash

@@ -1,34 +1,28 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { Stethoscope, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { heightExpand, buttonTap } from '@/lib/animations';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { Stethoscope, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { heightExpand, buttonTap } from "@/lib/animations";
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const menuItems = [
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: "Features", href: "#features" },
+    { label: "Pricing", href: "#pricing" },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm transition-all duration-300">
       <div className="layout-container flex items-center justify-between py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 text-text-main dark:text-white cursor-pointer group">
+        <Link
+          href="/"
+          className="flex items-center gap-3 text-text-main dark:text-white cursor-pointer group"
+        >
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap="tap"
@@ -37,7 +31,9 @@ export default function Header() {
           >
             <Stethoscope className="w-5 h-5" />
           </motion.div>
-          <h2 className="text-lg font-bold leading-tight tracking-tight">EyrieCare</h2>
+          <h2 className="text-lg font-bold leading-tight tracking-tight">
+            EyrieCare
+          </h2>
         </Link>
 
         {/* Navigation & Actions */}
@@ -61,9 +57,7 @@ export default function Header() {
               </Button>
             </Link>
             <Link href="/signup">
-              <Button>
-                Sign Up
-              </Button>
+              <Button>Sign Up</Button>
             </Link>
             {/* Mobile Menu Button */}
             <Button
@@ -73,7 +67,11 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -106,9 +104,7 @@ export default function Header() {
                     </Button>
                   </Link>
                   <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full py-6">
-                      Sign Up
-                    </Button>
+                    <Button className="w-full py-6">Sign Up</Button>
                   </Link>
                 </div>
               </div>
