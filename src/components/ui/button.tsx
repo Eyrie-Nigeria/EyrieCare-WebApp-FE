@@ -1,44 +1,45 @@
-import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/cn';
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
   {
     variants: {
       variant: {
         default:
-          'bg-primary text-text-main shadow-sm hover:bg-primary-hover transition-colors',
+          "bg-primary text-text-main shadow-sm hover:bg-primary-hover transition-colors",
         outline:
-          'border border-border-dark/10 dark:border-white/10 bg-surface-light dark:bg-white/5 text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors',
+          "border border-border-dark/10 dark:border-white/10 bg-surface-light dark:bg-white/5 text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors",
         ghost:
-          'text-text-main dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors',
+          "text-text-main dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors",
         gradient:
-          'bg-primary text-text-main shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all hover:scale-105',
+          "bg-primary text-text-main shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all hover:scale-105",
         secondary:
-          'border border-white/20 text-white hover:bg-white/10 transition-colors',
+          "border border-white/20 text-white hover:bg-white/10 transition-colors",
         destructive:
-          'bg-red-500 text-white hover:bg-red-600 shadow-sm transition-colors',
+          "bg-red-500 text-white hover:bg-red-600 shadow-sm transition-colors",
         dashboard:
-          'bg-primary-dashboard text-surface-dashboard-dark hover:bg-primary-dashboard-hover font-bold shadow-sm transition-colors',
+          "bg-primary-dashboard text-surface-dashboard-dark hover:bg-primary-dashboard-hover font-bold shadow-sm transition-colors",
       },
       size: {
-        default: 'h-10 px-5 py-2',
-        sm: 'h-8 rounded-md px-3',
-        lg: 'h-12 rounded-lg px-8 text-base',
-        icon: 'h-10 w-10',
+        default: "h-10 px-5 py-2",
+        sm: "h-8 rounded-md px-3",
+        lg: "h-12 rounded-lg px-8 text-base",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: "default",
+      size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
@@ -51,8 +52,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export { Button, buttonVariants };

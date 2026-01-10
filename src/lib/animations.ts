@@ -1,4 +1,4 @@
-import { type Variants } from 'framer-motion';
+import { type Variants } from "framer-motion";
 
 export const fadeInUp: Variants = {
   initial: {
@@ -10,7 +10,7 @@ export const fadeInUp: Variants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -25,7 +25,7 @@ export const fadeInDown: Variants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -40,7 +40,7 @@ export const fadeInLeft: Variants = {
     x: 0,
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -55,7 +55,7 @@ export const fadeInRight: Variants = {
     x: 0,
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -70,7 +70,7 @@ export const scaleIn: Variants = {
     scale: 1,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -93,7 +93,7 @@ export const slideInUp: Variants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -108,7 +108,7 @@ export const slideInDown: Variants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -123,7 +123,7 @@ export const slideInLeft: Variants = {
     x: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -138,7 +138,7 @@ export const slideInRight: Variants = {
     x: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -153,7 +153,7 @@ export const rotateIn: Variants = {
     rotate: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -161,14 +161,14 @@ export const rotateIn: Variants = {
 export const blurIn: Variants = {
   initial: {
     opacity: 0,
-    filter: 'blur(10px)',
+    filter: "blur(10px)",
   },
   animate: {
     opacity: 1,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -178,10 +178,10 @@ export const widthExpand: Variants = {
     width: 0,
   },
   animate: {
-    width: '100%',
+    width: "100%",
     transition: {
       duration: 0.8,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
@@ -191,10 +191,10 @@ export const heightExpand: Variants = {
     height: 0,
   },
   animate: {
-    height: 'auto',
+    height: "auto",
     transition: {
       duration: 0.8,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
@@ -204,7 +204,7 @@ export const typingEffect: Variants = {
     width: 0,
   },
   animate: {
-    width: '100%',
+    width: "100%",
     transition: {
       duration: 2,
       ease: [0.19, 1, 0.22, 1],
@@ -221,7 +221,7 @@ export const pulseAnimation: Variants = {
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
@@ -235,7 +235,7 @@ export const floatAnimation: Variants = {
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
@@ -249,35 +249,35 @@ export const waveAnimation: Variants = {
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
 
 export const shimmerAnimation: Variants = {
   initial: {
-    backgroundPosition: '-200% center',
+    backgroundPosition: "-200% center",
   },
   animate: {
-    backgroundPosition: '200% center',
+    backgroundPosition: "200% center",
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: 'linear',
+      ease: "linear",
     },
   },
 };
 
 export const gradientShift: Variants = {
   initial: {
-    backgroundPosition: '0% 50%',
+    backgroundPosition: "0% 50%",
   },
   animate: {
-    backgroundPosition: '100% 50%',
+    backgroundPosition: "100% 50%",
     transition: {
       duration: 5,
       repeat: Infinity,
-      ease: 'linear',
+      ease: "linear",
     },
   },
 };
@@ -302,9 +302,9 @@ export const createStagger = (delay: number = 0.1): Variants => ({
 // Preset for cards
 export const cardHover = {
   initial: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.05,
-    transition: { duration: 0.2 }
+    transition: { duration: 0.2 },
   },
 };
 
@@ -317,9 +317,9 @@ export const buttonTap = {
 export const heroAnimation = {
   container: {
     initial: { opacity: 0 },
-    animate: { 
+    animate: {
       opacity: 1,
-      transition: { staggerChildren: 0.2 }
+      transition: { staggerChildren: 0.2 },
     },
   },
   item: fadeInUp,

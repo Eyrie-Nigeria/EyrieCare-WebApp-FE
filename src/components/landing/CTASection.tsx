@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { fadeInUp, scaleIn } from '@/lib/animations';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { fadeInUp, scaleIn } from "@/lib/animations";
 
 export default function CTASection() {
   return (
@@ -32,7 +32,8 @@ export default function CTASection() {
                 variants={fadeInUp}
                 className="text-gray-300 max-w-xl text-lg"
               >
-                Join the platform built by medical professionals, for medical professionals. Start for free today.
+                Join the platform built by medical professionals, for medical
+                professionals. Start for free today.
               </motion.p>
 
               <motion.div

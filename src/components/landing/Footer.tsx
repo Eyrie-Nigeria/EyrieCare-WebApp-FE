@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Stethoscope } from 'lucide-react';
-import { FooterLinks } from './types';
-import { fadeInUp } from '@/lib/animations';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Stethoscope } from "lucide-react";
+import { FooterLinks } from "./types";
+import { fadeInUp } from "@/lib/animations";
 
 const footerLinks: FooterLinks = {
   product: [
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Testimonials', href: '#' },
+    { label: "Features", href: "#features" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "Testimonials", href: "#" },
   ],
   resources: [
-    { label: 'Blog', href: '#' },
-    { label: 'Help Center', href: '#' },
-    { label: 'Community', href: '#' },
+    { label: "Blog", href: "#" },
+    { label: "Help Center", href: "#" },
+    { label: "Community", href: "#" },
   ],
   legal: [
-    { label: 'Privacy', href: '#' },
-    { label: 'Terms', href: '#' },
+    { label: "Privacy", href: "#" },
+    { label: "Terms", href: "#" },
   ],
 };
 
@@ -35,7 +35,10 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex flex-col md:flex-row justify-between w-full gap-10"
         >
-          <motion.div variants={fadeInUp} className="flex flex-col gap-4 max-w-xs">
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-col gap-4 max-w-xs"
+          >
             <div className="flex items-center gap-2 text-text-main dark:text-white">
               <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-text-main">
                 <Stethoscope className="w-4 h-4" />
@@ -43,13 +46,18 @@ export default function Footer() {
               <h3 className="font-bold">EyrieCare</h3>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Empowering the next generation of healthcare providers with cutting-edge educational tools.
+              Empowering the next generation of healthcare providers with
+              cutting-edge educational tools.
             </p>
           </motion.div>
 
           <div className="flex flex-wrap gap-12 md:gap-24">
             {Object.entries(footerLinks).map(([category, links]) => (
-              <motion.div variants={fadeInUp} key={category} className="flex flex-col gap-3">
+              <motion.div
+                variants={fadeInUp}
+                key={category}
+                className="flex flex-col gap-3"
+              >
                 <h4 className="font-bold text-text-main dark:text-white text-sm uppercase tracking-wider">
                   {category}
                 </h4>

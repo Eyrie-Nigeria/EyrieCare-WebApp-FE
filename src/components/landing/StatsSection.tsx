@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { fadeInUp, staggerContainer } from '@/lib/animations';
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 export default function StatsSection() {
   const institutions = [
-    'Stanford Medicine',
-    'Johns Hopkins',
-    'Harvard Medical',
-    'UCSF',
+    "Stanford Medicine",
+    "Johns Hopkins",
+    "Harvard Medical",
+    "UCSF",
   ];
 
   return (
