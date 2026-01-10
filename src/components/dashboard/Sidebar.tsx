@@ -23,7 +23,7 @@ const navGroups: NavGroup[] = [
     title: "Academics",
     items: [
       { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
-      { label: "Clerk", href: "/dashboard/clerk", icon: Stethoscope },
+      { label: "Clerk", href: "/clerk", icon: Stethoscope },
       { label: "Chat", href: "/dashboard/chat", icon: MessageSquare },
       { label: "Test", href: "/dashboard/test", icon: ClipboardCheck },
       { label: "Courses", href: "/dashboard/courses", icon: GraduationCap },

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Bell, Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Search, Bell, Menu, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TopHeaderProps } from "./types";
 
@@ -9,6 +10,9 @@ export default function TopHeader({
   onMenuClick,
   searchPlaceholder = "Search cases, tests...",
 }: TopHeaderProps) {
+  const pathname = usePathname();
+  const shouldShowClerkBreadcrumb = pathname?.startsWith("/clerk");
+
   return (
     <header className="flex items-center justify-between whitespace-nowrap bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-b border-slate-200 dark:border-card-dashboard-dark px-6 py-4 shrink-0 z-10 transition-colors duration-200 font-dashboard shadow-sm">
       <div className="flex items-center gap-4 lg:hidden">
@@ -24,7 +28,17 @@ export default function TopHeader({
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Branding removed as it's in the sidebar */}
+        {shouldShowClerkBreadcrumb && (
+          <nav className="hidden sm:flex items-center gap-2 text-sm font-medium">
+            <span className="text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark transition-colors">
+              Clerk
+            </span>
+            <ChevronRight className="w-4 h-4 text-slate-300 dark:text-card-dashboard-dark" />
+            <span className="text-slate-900 dark:text-white">
+              Selection Mode
+            </span>
+          </nav>
+        )}
       </div>
 
       <div className="flex flex-1 justify-end items-center gap-4 md:gap-6">
