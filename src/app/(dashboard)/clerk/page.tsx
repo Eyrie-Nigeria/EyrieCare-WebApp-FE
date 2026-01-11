@@ -8,10 +8,19 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
+import { useState } from "react";
+import SpecialtyModal from "@/components/clerk/SpecialtyModal";
 
 export default function ClerkSelectionPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="max-w-5xl mx-auto py-8">
+      <SpecialtyModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 text-gradient">
           Start New Clerking Session
@@ -24,7 +33,10 @@ export default function ClerkSelectionPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* AI-Assisted Card */}
-        <button className="group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Brain
               className="w-32 h-32 text-slate-900 dark:text-white"

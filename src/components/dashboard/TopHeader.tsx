@@ -2,8 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Bell, Menu, ChevronRight } from "lucide-react";
+import {
+  Search,
+  Bell,
+  Menu,
+  ChevronRight,
+  Bot,
+  ClipboardEdit,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 import { TopHeaderProps } from "./types";
 
 export default function TopHeader({
@@ -11,33 +19,78 @@ export default function TopHeader({
   searchPlaceholder = "Search cases, tests...",
 }: TopHeaderProps) {
   const pathname = usePathname();
-  const shouldShowClerkBreadcrumb = pathname?.startsWith("/clerk");
+  const isClerkMode = pathname?.startsWith("/clerk");
+  const isAIMode = pathname?.includes("/ai");
+  const isManualMode = pathname?.includes("/manual");
+  const showToggle = isAIMode || isManualMode;
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-b border-slate-200 dark:border-card-dashboard-dark px-6 py-4 shrink-0 z-10 transition-colors duration-200 font-dashboard shadow-sm">
-      <div className="flex items-center gap-4 lg:hidden">
-        {/* Mobile Menu Trigger */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-slate-900 dark:text-white"
-          onClick={onMenuClick}
-        >
-          <Menu className="w-6 h-6" />
-        </Button>
-      </div>
-
       <div className="flex items-center gap-4">
-        {shouldShowClerkBreadcrumb && (
-          <nav className="hidden sm:flex items-center gap-2 text-sm font-medium">
-            <span className="text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark transition-colors">
-              Clerk
-            </span>
-            <ChevronRight className="w-4 h-4 text-slate-300 dark:text-card-dashboard-dark" />
-            <span className="text-slate-900 dark:text-white">
-              Selection Mode
-            </span>
-          </nav>
+        {/* Mobile Menu Trigger */}
+        <div className="lg:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-slate-900 dark:text-white"
+            onClick={onMenuClick}
+          >
+            <Menu className="w-6 h-6" />
+          </Button>
+        </div>
+
+        {isClerkMode && (
+          <div className="flex items-center gap-4">
+            <nav className="hidden sm:flex items-center gap-2 text-sm font-medium">
+              <Link
+                href="/clerk"
+                className="text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark hover:text-primary-dashboard transition-colors"
+              >
+                Clerk
+              </Link>
+              <ChevronRight className="w-4 h-4 text-slate-300 dark:text-card-dashboard-dark" />
+              <span className="text-slate-900 dark:text-white font-bold">
+                {isAIMode
+                  ? "AI-Assisted Clerking"
+                  : isManualMode
+                    ? "Manual Entry"
+                    : "Selection Mode"}
+              </span>
+            </nav>
+            {showToggle && (
+              <>
+                <div className="h-6 w-px bg-slate-200 dark:bg-card-dashboard-dark mx-2 hidden sm:block"></div>
+                <div className="hidden sm:flex bg-slate-100 dark:bg-card-dashboard-dark p-1 rounded-lg">
+                  <Link href="/clerk/ai">
+                    <button
+                      className={cn(
+                        "px-3 py-1 text-xs font-bold rounded-md flex items-center gap-1 transition-all",
+                        isAIMode
+                          ? "bg-white dark:bg-surface-dashboard-dark text-primary-dashboard shadow-sm"
+                          : "text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark hover:text-slate-900 dark:hover:text-white",
+                      )}
+                    >
+                      <Bot className="w-3 h-3" />
+                      AI Assisted
+                    </button>
+                  </Link>
+                  <Link href="/clerk/manual">
+                    <button
+                      className={cn(
+                        "px-3 py-1 text-xs font-bold rounded-md flex items-center gap-1 transition-all",
+                        isManualMode
+                          ? "bg-white dark:bg-surface-dashboard-dark text-primary-dashboard shadow-sm"
+                          : "text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark hover:text-slate-900 dark:hover:text-white",
+                      )}
+                    >
+                      <ClipboardEdit className="w-3 h-3" />
+                      Manual
+                    </button>
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
         )}
       </div>
 
