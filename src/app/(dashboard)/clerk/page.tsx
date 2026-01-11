@@ -8,11 +8,16 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
-import { useState } from "react";
-import SpecialtyModal from "@/components/clerk/SpecialtyModal";
+import Link from "next/link";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import SpecialtyModal from "@/components/clerk/ai/SpecialtyModal";
 
-export default function ClerkSelectionPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function ClerkSelectionContent() {
+  const searchParams = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(
+    () => searchParams?.get("mode") === "ai",
+  );
 
   return (
     <div className="max-w-5xl mx-auto py-8">
@@ -61,29 +66,31 @@ export default function ClerkSelectionPage() {
         </button>
 
         {/* Manual Card */}
-        <button className="group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <ClipboardEdit
-              className="w-32 h-32 text-slate-900 dark:text-white"
-              strokeWidth={1}
-            />
-          </div>
-          <div className="size-16 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-gray-300 mb-6 group-hover:scale-110 transition-transform">
-            <UserCog className="w-9 h-9" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-            Student-Led Clerking
-          </h2>
-          <p className="text-slate-600 dark:text-text-dashboard-secondary-dark leading-relaxed mb-8 flex-1">
-            Traditional manual form entry. Full control over every field and
-            data point. Best for structured exams and formal clinical
-            documentation practice.
-          </p>
-          <div className="flex items-center text-slate-600 dark:text-gray-300 font-bold gap-2 group-hover:translate-x-1 transition-transform">
-            <span>Start Manual Entry</span>
-            <ArrowRight className="w-5 h-5" />
-          </div>
-        </button>
+        <Link href="/clerk/manual" className="block w-full">
+          <button className="w-full group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <ClipboardEdit
+                className="w-32 h-32 text-slate-900 dark:text-white"
+                strokeWidth={1}
+              />
+            </div>
+            <div className="size-16 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-gray-300 mb-6 group-hover:scale-110 transition-transform">
+              <UserCog className="w-9 h-9" />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Student-Led Clerking
+            </h2>
+            <p className="text-slate-600 dark:text-text-dashboard-secondary-dark leading-relaxed mb-8 flex-1">
+              Traditional manual form entry. Full control over every field and
+              data point. Best for structured exams and formal clinical
+              documentation practice.
+            </p>
+            <div className="flex items-center text-slate-600 dark:text-gray-300 font-bold gap-2 group-hover:translate-x-1 transition-transform">
+              <span>Start Manual Entry</span>
+              <ArrowRight className="w-5 h-5" />
+            </div>
+          </button>
+        </Link>
       </div>
 
       <div className="mt-16 text-center">
@@ -93,5 +100,19 @@ export default function ClerkSelectionPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ClerkSelectionPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-8 text-center text-slate-500">
+          Loading clerk options...
+        </div>
+      }
+    >
+      <ClerkSelectionContent />
+    </Suspense>
   );
 }

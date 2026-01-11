@@ -61,7 +61,7 @@ export default function TopHeader({
               <>
                 <div className="h-6 w-px bg-slate-200 dark:bg-card-dashboard-dark mx-2 hidden sm:block"></div>
                 <div className="hidden sm:flex bg-slate-100 dark:bg-card-dashboard-dark p-1 rounded-lg">
-                  <Link href="/clerk/ai">
+                  <Link href="/clerk?mode=ai">
                     <button
                       className={cn(
                         "px-3 py-1 text-xs font-bold rounded-md flex items-center gap-1 transition-all",

@@ -46,7 +46,7 @@ export default function Sidebar({ className, onClose }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "w-72 flex-col justify-between bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-r border-slate-200 dark:border-card-dashboard-dark p-4 h-full shrink-0 z-20 transition-colors duration-200 font-dashboard",
+        "w-72 flex-col justify-between bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-r border-slate-200 dark:border-card-dashboard-dark p-4 h-full shrink-0 z-20 transition-colors duration-200 font-dashboard overflow-y-auto custom-scrollbar",
         className,
       )}
     >

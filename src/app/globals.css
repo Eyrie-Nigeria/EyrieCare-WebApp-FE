@@ -112,4 +112,12 @@
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-border-auth-green rounded-full;
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

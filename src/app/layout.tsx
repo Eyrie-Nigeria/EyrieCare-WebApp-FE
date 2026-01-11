@@ -36,7 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${manrope.variable} ${lexend.variable}`}
     >
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased custom-scrollbar">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

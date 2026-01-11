@@ -54,3 +54,28 @@ export interface SpecialtyModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+// Manual Clerking Types
+export type ManualFieldType =
+  | "text"
+  | "textarea"
+  | "select"
+  | "custom"
+  | "checkbox";
+
+export interface ManualField {
+  id: string;
+  label: string;
+  placeholder?: string;
+  type: ManualFieldType;
+  options?: string[]; // For 'select'
+  rows?: number; // For 'textarea'
+  width?: "full" | "half"; // Layout hint
+}
+
+export interface ManualSection {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  fields: ManualField[];
+}
