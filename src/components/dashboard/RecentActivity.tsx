@@ -48,7 +48,7 @@ export default function RecentActivity() {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-card-dashboard-dark bg-card-dashboard-light dark:bg-card-dashboard-dark shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-card-dashboard-dark bg-card-dashboard-light dark:bg-card-dashboard-dark shadow-sm custom-scrollbar">
         <table className="w-full text-left text-sm">
           <thead className="bg-slate-50 dark:bg-slate-900/40 text-xs uppercase text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark border-b border-slate-200 dark:border-card-dashboard-dark">
             <tr>

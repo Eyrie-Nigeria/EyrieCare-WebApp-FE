@@ -106,6 +106,36 @@ git push origin your-branch-name
 - `npm run lint` - Run ESLint
 - `npm run type-check` - Run TypeScript compiler checks
 
+## 🧪 Quality Checks Before Commit/PR
+
+Before pushing or opening a Pull Request, please ensure you have run and passed all of the following:
+
+- **Lint:**  
+   `npm run lint`
+- **Format Check:**  
+   `npm run format -- --check`
+- **Type Check:**  
+   `npm run type-check`
+- **Build:**  
+   `npm run build`
+- **Tests (if available):**  
+   `npm test`
+- **Security Audit (optional):**  
+   `npm audit --audit-level=moderate`
+
+> **Tip:** Pre-commit hooks (Husky + lint-staged) will automatically lint and format staged files on commit.
+
+## 🛡️ Continuous Integration
+
+All Pull Requests and pushes to `main`, `dev`, `staging`, and all branches are automatically checked by GitHub Actions for:
+
+- Linting
+- Formatting
+- Type checking
+- Build
+- Tests (if present)
+- Security audit
+
 ---
 
 Built with ❤️ for Medical Excellence.
