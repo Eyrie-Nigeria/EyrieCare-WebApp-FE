@@ -27,7 +27,7 @@ const features: Feature[] = [
   },
 ];
 
-export default function FeaturesSection() {
+export function FeaturesSection() {
   return (
     <section
       id="features"

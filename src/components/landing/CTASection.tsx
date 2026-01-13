@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { fadeInUp, scaleIn } from "@/lib/animations";
 
-export default function CTASection() {
+export function CTASection() {
   return (
     <section className="py-20 bg-background-light dark:bg-background-dark">
       <div className="layout-container flex justify-center">

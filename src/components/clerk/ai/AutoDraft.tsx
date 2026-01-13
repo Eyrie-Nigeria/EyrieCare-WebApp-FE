@@ -4,7 +4,7 @@ import { FileText, X } from "lucide-react";
 import { AutoDraftProps } from "../types";
 import { useClerk } from "@/context/ClerkContext";
 
-export default function AutoDraft({ onClose }: AutoDraftProps) {
+export function AutoDraft({ onClose }: AutoDraftProps) {
   const { sections, answers } = useClerk();
 
   // Helper to get all non-empty answers for a section
@@ -37,7 +37,7 @@ export default function AutoDraft({ onClose }: AutoDraftProps) {
         </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
         {sections.map((section) => {
           const sectionAnswers = getSectionAnswers(section.id);
           if (sectionAnswers.length === 0) return null;

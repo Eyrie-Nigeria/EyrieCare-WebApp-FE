@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { AcademicFieldProps, CertItemProps, ResultItemProps } from "./types";
 
-export default function AcademicTab() {
+export function AcademicTab() {
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Current Academic Status */}

@@ -1,4 +1,4 @@
-import ManualClerkingForm from "@/components/clerk/manual/ManualClerkingForm";
+import { ManualClerkingForm } from "@/components/clerk/manual";
 
 export default function ManualClerkPage() {
   return (

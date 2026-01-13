@@ -1,10 +1,12 @@
 "use client";
 
 import { HeartPulse, BookOpenCheck, AlertCircle } from "lucide-react";
-import DashboardHero from "@/components/dashboard/DashboardHero";
-import StatCard from "@/components/dashboard/StatCard";
-import QuickActions from "@/components/dashboard/QuickActions";
-import RecentActivity from "@/components/dashboard/RecentActivity";
+import {
+  DashboardHero,
+  StatCard,
+  QuickActions,
+  RecentActivity,
+} from "@/components/dashboard";
 
 export default function DashboardPage() {
   return (

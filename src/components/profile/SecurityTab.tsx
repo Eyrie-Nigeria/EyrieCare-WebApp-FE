@@ -4,7 +4,7 @@ import { Smartphone, Key, History, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SecurityTab() {
+export function SecurityTab() {
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Password Change Card */}

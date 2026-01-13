@@ -1,57 +1,20 @@
 "use client";
 
-import {
-  X,
-  Baby,
-  Stethoscope,
-  Scissors,
-  HeartPulse,
-  ChevronRight,
-} from "lucide-react";
+import { X, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { SpecialtyModalProps } from "../types";
+import { SPECIALTIES } from "@/lib/data/specialties";
 
-const SPECIALTIES = [
-  {
-    id: "pediatrics",
-    name: "Paediatrics",
-    icon: Baby,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10",
-    desc: "Child health, growth & development",
-  },
-  {
-    id: "medicine",
-    name: "Internal Medicine",
-    icon: Stethoscope,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
-    desc: "Adult diseases, diagnosis & treatment",
-  },
-  {
-    id: "surgery",
-    name: "General Surgery",
-    icon: Scissors,
-    color: "text-red-500",
-    bg: "bg-red-500/10",
-    desc: "Surgical procedures & intervention",
-  },
-  {
-    id: "obgyn",
-    name: "Obstetrics & Gynaecology",
-    icon: HeartPulse,
-    color: "text-pink-500",
-    bg: "bg-pink-500/10",
-    desc: "Maternal health & reproduction",
-  },
-];
-
-export default function SpecialtyModal({
+export function SpecialtyModal({
   isOpen,
   onClose,
+  defaultSpecialty,
 }: SpecialtyModalProps) {
   if (!isOpen) return null;
+
+  // Use the full list of specialties from data
+  const specialties = SPECIALTIES;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200">
@@ -78,12 +41,17 @@ export default function SpecialtyModal({
         </div>
 
         {/* List */}
-        <div className="p-4 space-y-2">
-          {SPECIALTIES.map((spec) => (
+        <div className="p-4 space-y-2 max-h-[60vh] overflow-y-auto custom-scrollbar">
+          {specialties.map((spec) => (
             <Link
               key={spec.id}
               href={`/clerk/ai?specialty=${spec.id}`}
-              className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-white/5 transition-all group border border-transparent hover:border-slate-200 dark:hover:border-white/10"
+              className={cn(
+                "flex items-center gap-4 p-4 rounded-2xl transition-all group border border-transparent hover:border-slate-200 dark:hover:border-white/10",
+                defaultSpecialty === spec.id
+                  ? "bg-primary-dashboard/5 border-primary-dashboard/20"
+                  : "hover:bg-slate-50 dark:hover:bg-white/5",
+              )}
             >
               <div
                 className={cn(
@@ -98,7 +66,7 @@ export default function SpecialtyModal({
                 <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-primary-dashboard transition-colors">
                   {spec.name}
                 </h4>
-                <p className="text-xs text-slate-500 dark:text-text-dashboard-secondary-dark">
+                <p className="text-xs text-slate-500 dark:text-text-dashboard-secondary-dark line-clamp-1">
                   {spec.desc}
                 </p>
               </div>

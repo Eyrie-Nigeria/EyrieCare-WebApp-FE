@@ -38,10 +38,14 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased custom-scrollbar">
         <ThemeProvider
-          attribute="class"
+          attribute="data-theme"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          value={{
+            light: "light",
+            dark: "dark",
+          }}
         >
           {children}
           <Toaster

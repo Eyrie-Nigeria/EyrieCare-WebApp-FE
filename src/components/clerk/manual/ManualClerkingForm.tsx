@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { cn } from "@/lib/cn";
-import SessionInitModal from "./SessionInitModal"; // Import the modal
+import { SessionInitModal } from "./SessionInitModal"; // Import the modal
 
 // --- Components ---
 
@@ -247,7 +247,7 @@ const TextareaGroup = ({
   </div>
 );
 
-export default function ManualClerkingForm() {
+export function ManualClerkingForm() {
   const [openSection, setOpenSection] = useState<string>("biodata");
 
   // Session State

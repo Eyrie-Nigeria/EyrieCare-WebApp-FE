@@ -1,5 +1,4 @@
-import ClerkingForm from "@/components/clerk/ai/ClerkingForm";
-import AutoDraft from "@/components/clerk/ai/AutoDraft";
+import { ClerkingForm, AutoDraft } from "@/components/clerk/ai";
 import { ClerkProvider } from "@/context/ClerkContext";
 
 export default function AIClerkPage() {

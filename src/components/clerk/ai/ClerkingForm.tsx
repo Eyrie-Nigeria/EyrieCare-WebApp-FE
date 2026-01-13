@@ -18,11 +18,12 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { useClerk } from "@/context/ClerkContext";
+import { SPECIALTIES } from "@/lib/data/specialties";
 import { useState } from "react";
 import { QuestionStatus } from "../types";
-import AutoDraft from "./AutoDraft";
+import { AutoDraft } from "./AutoDraft";
 
-export default function ClerkingForm() {
+export function ClerkingForm() {
   const {
     specialty,
     sections,
@@ -31,6 +32,11 @@ export default function ClerkingForm() {
     submitAnswer,
     skipQuestion,
   } = useClerk();
+
+  const selectedSpecialty = SPECIALTIES.find((s) => s.id === specialty);
+  const specialtyName = selectedSpecialty
+    ? selectedSpecialty.name
+    : "Paediatrics";
 
   const [inputValues, setInputValues] = useState<Record<string, string>>({});
   const [isCustomMode, setIsCustomMode] = useState(false);
@@ -75,7 +81,7 @@ export default function ClerkingForm() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full bg-background-dashboard-light dark:bg-background-dashboard-dark relative overflow-y-auto">
+    <div className="flex flex-col w-full h-full bg-background-dashboard-light dark:bg-background-dashboard-dark relative overflow-y-auto custom-scrollbar">
       {/* Header */}
       <header className="flex items-center justify-between p-4 sticky top-0 z-30 bg-background-dashboard-light/95 dark:bg-background-dashboard-dark/95 backdrop-blur-sm border-b border-slate-200/50 dark:border-card-dashboard-dark/50">
         <Link href="/clerk">
@@ -85,7 +91,7 @@ export default function ClerkingForm() {
         </Link>
         <div className="flex flex-col items-center">
           <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-slate-900 dark:text-white capitalize">
-            {specialty || "Paediatrics"} Clerking
+            {specialtyName} Clerking
           </h2>
           <span className="text-[10px] md:text-xs font-medium text-primary-dashboard">
             New Admission
@@ -135,15 +141,20 @@ export default function ClerkingForm() {
             >
               <summary className="flex items-center justify-between p-4 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-slate-50 group-open:dark:border-card-dashboard-dark/30">
                 <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "size-9 md:size-10 rounded-full flex items-center justify-center",
-                      section.colorClass,
-                      section.iconColor,
-                    )}
-                  >
-                    <section.icon className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
+                  {(() => {
+                    const Icon = section.icon;
+                    return (
+                      <div
+                        className={cn(
+                          "size-9 md:size-10 rounded-full flex items-center justify-center",
+                          section.colorClass,
+                          section.iconColor,
+                        )}
+                      >
+                        {Icon && <Icon className="w-4 h-4 md:w-5 md:h-5" />}
+                      </div>
+                    );
+                  })()}
                   <div className="flex flex-col text-left">
                     <h3 className="text-sm md:text-base font-bold text-slate-900 dark:text-white">
                       {section.title}

@@ -1,4 +1,6 @@
 import { LucideIcon } from "lucide-react";
+import { Activity } from "@/lib/types";
+export type { Activity };
 
 export interface StatCardProps {
   label: string;
@@ -31,15 +33,6 @@ export interface TopHeaderProps {
   onMenuClick?: () => void;
   searchPlaceholder?: string;
 }
-
-export interface Activity {
-  title: string;
-  type: string;
-  status: string;
-  statusColor: string;
-  date: string;
-}
-
 export interface QuickAction {
   title: string;
   description: string;
@@ -47,4 +40,5 @@ export interface QuickAction {
   color: string;
   bgColor: string;
   hoverBg: string;
+  href: string;
 }
