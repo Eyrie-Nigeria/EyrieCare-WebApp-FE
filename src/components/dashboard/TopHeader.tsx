@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { TopHeaderProps } from "./types";
 
-export default function TopHeader({
+export function TopHeader({
   onMenuClick,
   searchPlaceholder = "Search cases, tests...",
 }: TopHeaderProps) {

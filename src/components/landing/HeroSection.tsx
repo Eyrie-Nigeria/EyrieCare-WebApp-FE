@@ -6,7 +6,7 @@ import { Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fadeInUp, scaleIn, staggerContainer } from "@/lib/animations";
 
-export default function HeroSection() {
+export function HeroSection() {
   const avatars = [
     "https://lh3.googleusercontent.com/aida-public/AB6AXuDYo5VfKXNr4UqcrYkbxy5oP0aQOz0GR8Ka0NKxQQe9lNtPfMII2z_ZuUXE_ccspaNhGqTtRz6DeJOIKAMjGvWZf5JHFdPAP2MTjfQPwDCqr0ClvkuowZi23CY-JEZcrtMmHDgCAfwbrmeEKgiUGQc1DU-BIALGBgWXWyXfPflmbnOhfyLrj7DRGA8xrkylDDIXE-3krjJ1A35p7sTou-QyA06TxrmzyR68_4q3EOqlLdWBc1jostFGLu0_b44wgZV0Aps-dyzMcHY",
     "https://lh3.googleusercontent.com/aida-public/AB6AXuBo6XX2swkW8dhkp-IExxflBcCKVj9T3k7PVH2hboRejPmpUUPGpjzdwq3H6gaJYFx9iSGtlMhOJ5F4jHM-FuMJzNV4rYLFP3AbH7Ux-KFq65XolYQm_v04tddg0m8RPVJ6lFAvikxOPK1927Fkeq2Oc4lGqJ5qWDNQ1uKKCCwLe-cx6ygG8AJLcySgkSbhtA740mZBVSoi6wPxcGNQunIC3RoYTiEu1XemOBbsscjJUoRp5UBkZeO2uaRBotQPKGtoiJ1whr-t4nE",

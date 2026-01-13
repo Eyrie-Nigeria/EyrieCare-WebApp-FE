@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Stethoscope } from "lucide-react";
-import AuthBranding from "@/components/auth/AuthBranding";
+import { AuthBranding } from "@/components/auth";
 
 export default function AuthLayout({
   children,

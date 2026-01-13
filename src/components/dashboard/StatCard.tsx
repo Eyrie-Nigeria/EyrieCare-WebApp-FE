@@ -4,7 +4,7 @@ import { TrendingUp } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { StatCardProps } from "./types";
 
-export default function StatCard({
+export function StatCard({
   label,
   value,
   percentage,

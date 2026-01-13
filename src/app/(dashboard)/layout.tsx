@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Sidebar from "@/components/dashboard/Sidebar";
-import TopHeader from "@/components/dashboard/TopHeader";
+import { Sidebar, TopHeader } from "@/components/dashboard";
 
 export default function DashboardLayout({
   children,

@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Mail, ChevronDown, Eye, EyeOff } from "lucide-react";
-import AuthTabs from "@/components/auth/AuthTabs";
-import SocialLogins from "@/components/auth/SocialLogins";
+import { AuthTabs, SocialLogins } from "@/components/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 

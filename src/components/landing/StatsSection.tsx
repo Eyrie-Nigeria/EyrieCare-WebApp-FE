@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
-export default function StatsSection() {
+export function StatsSection() {
   const institutions = [
     "Stanford Medicine",
     "Johns Hopkins",

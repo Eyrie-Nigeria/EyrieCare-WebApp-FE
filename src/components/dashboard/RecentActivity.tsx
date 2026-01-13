@@ -4,35 +4,20 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Activity } from "./types";
+import { MOCK_CASES } from "@/lib/data/cases";
 
-const activities: Activity[] = [
-  {
-    title: "Acute Coronary Syndrome",
-    type: "Case Study",
-    status: "In Progress",
+export function RecentActivity() {
+  // Use the 3 most recent cases as the activity for demonstration of "linked data"
+  const activities: Activity[] = MOCK_CASES.slice(0, 3).map((c) => ({
+    title: c.patientName,
+    type: "Clinical Case",
+    status: c.status,
     statusColor:
-      "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400",
-    date: "2 hours ago",
-  },
-  {
-    title: "Respiratory System Quiz",
-    type: "Test",
-    status: "Completed (90%)",
-    statusColor:
-      "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400",
-    date: "Yesterday",
-  },
-  {
-    title: "Pediatric Dosage Calc",
-    type: "Practice",
-    status: "Completed (100%)",
-    statusColor:
-      "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400",
-    date: "2 days ago",
-  },
-];
-
-export default function RecentActivity() {
+      c.status === "Finalized"
+        ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+        : "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400",
+    date: c.date,
+  }));
   return (
     <section className="mt-4 mb-8">
       <div className="flex items-center justify-between mb-6">
@@ -48,9 +33,9 @@ export default function RecentActivity() {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-card-dashboard-dark bg-card-dashboard-light dark:bg-card-dashboard-dark shadow-sm custom-scrollbar">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10 bg-card-dashboard-light dark:bg-card-dashboard-dark shadow-sm custom-scrollbar">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 dark:bg-slate-900/40 text-xs uppercase text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark border-b border-slate-200 dark:border-card-dashboard-dark">
+          <thead className="bg-slate-50 dark:bg-slate-900/40 text-xs uppercase text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark border-b border-slate-200 dark:border-white/10">
             <tr>
               <th className="px-6 py-4 font-bold tracking-wider" scope="col">
                 Activity
@@ -69,7 +54,7 @@ export default function RecentActivity() {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+          <tbody className="divide-y divide-slate-200 dark:divide-white/20">
             {activities.map((item, idx) => (
               <tr
                 key={idx}

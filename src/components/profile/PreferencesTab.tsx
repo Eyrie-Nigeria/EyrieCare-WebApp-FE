@@ -1,9 +1,34 @@
-"use client";
-
-import { Bell, Globe, Palette, ChevronDown } from "lucide-react";
+import {
+  Bell,
+  Globe,
+  Palette,
+  ChevronDown,
+  Sun,
+  Moon,
+  Monitor,
+} from "lucide-react";
 import { SettingItemProps } from "./types";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/cn";
 
-export default function PreferencesTab() {
+export function PreferencesTab() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const themes = [
+    { id: "light", label: "Light", icon: Sun },
+    { id: "dark", label: "Dark", icon: Moon },
+    { id: "system", label: "System", icon: Monitor },
+  ];
+
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Visual Preferences */}
@@ -18,22 +43,35 @@ export default function PreferencesTab() {
         </div>
 
         <div className="space-y-6">
-          <div className="flex items-center justify-between group">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 group">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-slate-800 dark:text-white">
                 Theme Mode
               </span>
               <span className="text-xs text-text-dashboard-secondary-light">
-                Switch between light and dark themes.
+                Switch between light, dark and system themes.
               </span>
             </div>
-            <div className="flex items-center p-1 bg-slate-100 dark:bg-background-dashboard-dark rounded-lg border border-slate-200 dark:border-card-dashboard-dark shadow-inner">
-              <button className="px-4 py-1.5 text-xs font-bold rounded-md bg-white dark:bg-card-dashboard-dark shadow-sm text-slate-900 dark:text-white transition-all transform hover:scale-105 active:scale-95 cursor-pointer">
-                Dark
-              </button>
-              <button className="px-4 py-1.5 text-xs font-bold rounded-md text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-all transform hover:scale-105 active:scale-95 cursor-pointer">
-                Light
-              </button>
+            <div className="flex items-center p-1 bg-slate-100 dark:bg-background-dashboard-dark rounded-xl border border-slate-200 dark:border-card-dashboard-dark shadow-inner w-fit">
+              {themes.map((t) => {
+                const isActive = theme === t.id;
+                const Icon = t.icon;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setTheme(t.id)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all transform active:scale-95 cursor-pointer",
+                      isActive
+                        ? "bg-white dark:bg-card-dashboard-dark shadow-sm text-primary-dashboard dark:text-white"
+                        : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
+                    )}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    {t.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 

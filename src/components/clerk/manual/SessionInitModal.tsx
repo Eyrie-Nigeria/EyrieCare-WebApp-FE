@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { User, ArrowRight, ShieldCheck, X } from "lucide-react";
+import { User, ArrowRight, ShieldCheck, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { SPECIALTIES } from "@/lib/data/specialties";
 
 interface SessionInitModalProps {
   isOpen: boolean;
@@ -10,11 +11,12 @@ interface SessionInitModalProps {
     patientId: string;
     patientName: string;
     patientGender: string;
+    specialty: string;
   }) => void;
   onClose: () => void;
 }
 
-export default function SessionInitModal({
+export function SessionInitModal({
   isOpen,
   onStartSession,
   onClose,
@@ -22,13 +24,14 @@ export default function SessionInitModal({
   const [patientId, setPatientId] = useState("");
   const [patientName, setPatientName] = useState("");
   const [patientGender, setPatientGender] = useState("Male");
+  const [specialty, setSpecialty] = useState("");
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (patientId.trim()) {
-      onStartSession({ patientId, patientName, patientGender });
+      onStartSession({ patientId, patientName, patientGender, specialty });
     }
   };
 
@@ -102,6 +105,32 @@ export default function SessionInitModal({
 
           <div className="space-y-1">
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 ml-1">
+              Clinical Specialty <span className="text-red-500">*</span>
+            </label>
+            <div className="relative group/select">
+              <select
+                required
+                value={specialty}
+                onChange={(e) => setSpecialty(e.target.value)}
+                className="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dashboard-dark text-slate-900 dark:text-white focus:border-primary-dashboard focus:ring-2 focus:ring-primary-dashboard/20 p-3 pr-10 text-sm font-medium transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>
+                  Select Specialty...
+                </option>
+                {SPECIALTIES.map((spec) => (
+                  <option key={spec.id} value={spec.id}>
+                    {spec.name}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover/select:text-primary-dashboard transition-colors">
+                <ChevronDown className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 ml-1">
               Gender
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -120,7 +149,7 @@ export default function SessionInitModal({
 
           <button
             type="submit"
-            disabled={!patientId.trim()}
+            disabled={!patientId.trim() || !specialty}
             className="w-full py-3 bg-primary-dashboard hover:bg-primary-dashboard-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-base rounded-2xl shadow-lg shadow-primary-dashboard/20 transition-all mt-2 flex items-center justify-center gap-2"
           >
             Start Session

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Stethoscope } from "lucide-react";
 import { fadeInUp } from "@/lib/animations";
 
-export default function AuthBranding() {
+export function AuthBranding() {
   const avatars = [
     "https://lh3.googleusercontent.com/aida-public/AB6AXuCQGNVC_QjM9eVvstnzjZ17IYwYTyy0Ou1MxPRPF-oMpKvd9Ouq7dycsXEiqYaUokjR7JaJ1-T27MzCAKvBHilzxwNjpuldD24GuuCWztAiQ1mWzwl6U9F-qP-0VGE4NrPFWCs1hFp88YAe15W5HkbFP4tqrq49Wg91nvmxokYHnh43Kb-qoQ5OF5R5xHbney8TqNldNM7loMqIl0heNJlsLkZITfozHDVVIGrW7eYqwStsa678C4KY7VSxTVIO46xZtDOBRLKZ4Dc",
     "https://lh3.googleusercontent.com/aida-public/AB6AXuAJztiuG0qs0IYcWff2uW7cVdzgpCX4aSEwMPWcJyRw4xXrzm1vmI1T4HyYMgB6l1JwDRRaO_1Tm1TX_RwrWXkjB4oh66m7QBN6uWZiP1n2SWAK2z5-7NvfmefZ_cMNXT-XufAqDzPQKhFaDcU5oTIo0jomErj7q6FCV99HVNbvd8MOqpKsQY3tSTa9t74btlmOWFBfkSVJ632Du3rOLTwjNCVeaE13NMhgmMvdVPx77RvH0uiIhOpXfGg8_F8YCRKNfJuxHaqckkE",

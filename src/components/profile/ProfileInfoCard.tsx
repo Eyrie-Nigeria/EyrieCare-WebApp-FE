@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function ProfileInfoCard() {
+export function ProfileInfoCard() {
   return (
     <section className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
       <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">

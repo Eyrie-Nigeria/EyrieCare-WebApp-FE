@@ -1,17 +1,13 @@
+import { Certificate, AcademicResult } from "@/lib/types";
+export type { Certificate, AcademicResult };
+
 export interface AcademicFieldProps {
   label: string;
   value: string;
 }
 
-export interface CertItemProps {
-  title: string;
-  date: string;
-}
-
-export interface ResultItemProps {
-  subject: string;
-  score: string;
-}
+export type CertItemProps = Certificate;
+export type ResultItemProps = AcademicResult;
 
 export interface SettingItemProps {
   title: string;

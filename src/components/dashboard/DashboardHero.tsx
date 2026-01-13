@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function DashboardHero() {
+export function DashboardHero() {
   return (
     <section className="w-full">
       <div

@@ -3,7 +3,7 @@
 import { CheckCircle2, Circle, LogOut } from "lucide-react";
 import { PreferenceToggleProps } from "./types";
 
-export default function ProfileWidgets() {
+export function ProfileWidgets() {
   return (
     <div className="flex flex-col gap-6">
       {/* Profile Strength Widget */}

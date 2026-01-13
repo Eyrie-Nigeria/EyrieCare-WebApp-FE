@@ -8,22 +8,57 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
-import Link from "next/link";
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import SpecialtyModal from "@/components/clerk/ai/SpecialtyModal";
+import React, { useState, Suspense, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { SpecialtyModal, SessionInitModal } from "@/components/clerk";
 
 function ClerkSelectionContent() {
   const searchParams = useSearchParams();
-  const [isModalOpen, setIsModalOpen] = useState(
-    () => searchParams?.get("mode") === "ai",
-  );
+  const router = useRouter();
+  const specialtyParam = searchParams?.get("specialty");
+  const modeParam = searchParams?.get("mode");
+
+  const [isModalOpen, setIsModalOpen] = useState(() => {
+    if (modeParam === "ai" && !specialtyParam) return true;
+    if (specialtyParam && modeParam !== "ai") return true;
+    return false;
+  });
+
+  // If both specialty and mode=ai are present, we skip the modal and go straight to the AI interface
+  useEffect(() => {
+    if (specialtyParam && modeParam === "ai") {
+      // This is where you'd navigate to the actual AI session page
+      // For now, we'll keep the modal open with the specialty pre-selected if we want to show it,
+      // but the user wants "straight to clerk", not a modal.
+      // If there is an /ai route, we should go there.
+      router.push(`/clerk/ai?specialty=${specialtyParam}`);
+    } else if (specialtyParam && !isModalOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsModalOpen(true);
+    }
+  }, [specialtyParam, modeParam, router, isModalOpen]);
 
   return (
     <div className="max-w-5xl mx-auto py-8">
       <SpecialtyModal
-        isOpen={isModalOpen}
+        isOpen={isModalOpen && modeParam === "ai"}
         onClose={() => setIsModalOpen(false)}
+        defaultSpecialty={specialtyParam || undefined}
+      />
+
+      {/* Manual Session Init Modal */}
+      <SessionInitModal
+        isOpen={isModalOpen && modeParam === "manual"}
+        onClose={() => {
+          setIsModalOpen(false);
+          router.push("/clerk");
+        }}
+        onStartSession={(data) => {
+          // Navigate to manual clerking with data
+          router.push(
+            `/clerk/manual?specialty=${data.specialty}&patientId=${data.patientId}`,
+          );
+        }}
       />
 
       <div className="text-center mb-12">
@@ -39,8 +74,11 @@ function ClerkSelectionContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* AI-Assisted Card */}
         <button
-          onClick={() => setIsModalOpen(true)}
-          className="group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden"
+          onClick={() => {
+            router.push("/clerk?mode=ai");
+            setIsModalOpen(true);
+          }}
+          className="group text-left flex flex-col h-full p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Brain
@@ -66,31 +104,35 @@ function ClerkSelectionContent() {
         </button>
 
         {/* Manual Card */}
-        <Link href="/clerk/manual" className="block w-full">
-          <button className="w-full group text-left flex flex-col p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <ClipboardEdit
-                className="w-32 h-32 text-slate-900 dark:text-white"
-                strokeWidth={1}
-              />
-            </div>
-            <div className="size-16 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-gray-300 mb-6 group-hover:scale-110 transition-transform">
-              <UserCog className="w-9 h-9" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-              Student-Led Clerking
-            </h2>
-            <p className="text-slate-600 dark:text-text-dashboard-secondary-dark leading-relaxed mb-8 flex-1">
-              Traditional manual form entry. Full control over every field and
-              data point. Best for structured exams and formal clinical
-              documentation practice.
-            </p>
-            <div className="flex items-center text-slate-600 dark:text-gray-300 font-bold gap-2 group-hover:translate-x-1 transition-transform">
-              <span>Start Manual Entry</span>
-              <ArrowRight className="w-5 h-5" />
-            </div>
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            router.push("/clerk?mode=manual");
+            setIsModalOpen(true);
+          }}
+          className="group text-left flex flex-col h-full p-8 bg-card-dashboard-light dark:bg-card-dashboard-dark border border-slate-200 dark:border-card-dashboard-dark rounded-2xl shadow-sm hover:shadow-xl hover:border-primary-dashboard dark:hover:border-primary-dashboard transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <ClipboardEdit
+              className="w-32 h-32 text-slate-900 dark:text-white"
+              strokeWidth={1}
+            />
+          </div>
+          <div className="size-16 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-gray-300 mb-6 group-hover:scale-110 transition-transform">
+            <UserCog className="w-9 h-9" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+            Student-Led Clerking
+          </h2>
+          <p className="text-slate-600 dark:text-text-dashboard-secondary-dark leading-relaxed mb-8 flex-1">
+            Traditional manual form entry. Full control over every field and
+            data point. Best for structured exams and formal clinical
+            documentation practice.
+          </p>
+          <div className="flex items-center text-slate-600 dark:text-gray-300 font-bold gap-2 group-hover:translate-x-1 transition-transform">
+            <span>Start Manual Entry</span>
+            <ArrowRight className="w-5 h-5" />
+          </div>
+        </button>
       </div>
 
       <div className="mt-16 text-center">

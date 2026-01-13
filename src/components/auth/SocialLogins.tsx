@@ -1,6 +1,6 @@
 "use client";
 
-export default function SocialLogins() {
+export function SocialLogins() {
   return (
     <div className="flex flex-col gap-6">
       <div className="relative flex items-center py-2">

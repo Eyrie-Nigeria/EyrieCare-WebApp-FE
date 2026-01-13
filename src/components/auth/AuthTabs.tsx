@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-export default function AuthTabs() {
+export function AuthTabs() {
   const pathname = usePathname();
   const isLogin = pathname === "/login";
   const isSignup = pathname === "/signup";

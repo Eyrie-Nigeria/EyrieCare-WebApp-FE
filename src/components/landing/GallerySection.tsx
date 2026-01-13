@@ -37,7 +37,7 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
-export default function GallerySection() {
+export function GallerySection() {
   return (
     <section className="py-12 bg-surface-light dark:bg-surface-dark border-y border-border-light dark:border-border-dark">
       <div className="layout-container">

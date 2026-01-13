@@ -7,7 +7,7 @@ import { Stethoscope, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { heightExpand, buttonTap } from "@/lib/animations";
 
-export default function Header() {
+export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems = [

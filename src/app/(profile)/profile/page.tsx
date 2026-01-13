@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import ProfileInfoCard from "@/components/profile/ProfileInfoCard";
-import PersonalInfoForm from "@/components/profile/PersonalInfoForm";
-import SecurityTab from "@/components/profile/SecurityTab";
-import PreferencesTab from "@/components/profile/PreferencesTab";
-import AcademicTab from "@/components/profile/AcademicTab";
-import ProfileWidgets from "@/components/profile/ProfileWidgets";
+import {
+  ProfileInfoCard,
+  PersonalInfoForm,
+  SecurityTab,
+  PreferencesTab,
+  AcademicTab,
+  ProfileWidgets,
+} from "@/components/profile";
 import { User, ShieldCheck, Settings2, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/cn";
 

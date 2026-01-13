@@ -1,81 +1,36 @@
-import { LucideIcon } from "lucide-react";
+import {
+  StepStatus,
+  ClerkStep,
+  QuestionStatus,
+  AIQuestion,
+  ClerkSection,
+  ClerkState,
+} from "@/lib/types";
 
-export type StepStatus = "completed" | "in-progress" | "upcoming";
-
-export interface ClerkStep {
-  label: string;
-  status: StepStatus;
-  icon: LucideIcon;
-  colorClass: string;
-  iconColor: string;
-}
-
-export type QuestionStatus = "pending" | "current" | "answered" | "skipped";
-
-export interface AIQuestion {
-  id: string;
-  text: string;
-  status: QuestionStatus;
-  answer?: string;
-}
-
-export interface ClerkSection {
-  id: string;
-  title: string;
-  subtitle: string;
-  icon: LucideIcon;
-  colorClass: string;
-  iconColor: string;
-  questions: AIQuestion[];
-}
-
-export interface ClerkState {
-  specialty: string | null;
-  sections: ClerkSection[];
-  activeSectionId: string | null;
-  answers: Record<string, string>; // questionId -> answer
-}
-
-export interface CaseProgressProps {
-  className?: string;
-}
-
-export interface ChatInterfaceProps {
-  className?: string;
-  onSendMessage?: (message: string) => void;
-}
-
-export interface AutoDraftProps {
-  className?: string;
-  onClose?: () => void;
-}
+export type {
+  StepStatus,
+  ClerkStep,
+  QuestionStatus,
+  AIQuestion,
+  ClerkSection,
+  ClerkState,
+};
 
 export interface SpecialtyModalProps {
   isOpen: boolean;
   onClose: () => void;
+  defaultSpecialty?: string;
 }
 
-// Manual Clerking Types
-export type ManualFieldType =
-  | "text"
-  | "textarea"
-  | "select"
-  | "custom"
-  | "checkbox";
-
-export interface ManualField {
+export interface ManualClerkField {
   id: string;
   label: string;
+  type: "text" | "textarea" | "select" | "number";
   placeholder?: string;
-  type: ManualFieldType;
-  options?: string[]; // For 'select'
-  rows?: number; // For 'textarea'
-  width?: "full" | "half"; // Layout hint
+  options?: { value: string; label: string }[];
+  required?: boolean;
 }
 
-export interface ManualSection {
-  id: string;
-  title: string;
-  icon: LucideIcon;
-  fields: ManualField[];
+export interface AutoDraftProps {
+  onClose?: () => void;
 }

@@ -1,7 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ClerkSection, ClerkState } from "@/components/clerk/types";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { ClerkSection, ClerkState } from "@/lib/types";
+import { useSearchParams } from "next/navigation";
 import {
   CreditCard,
   ClipboardList,
@@ -149,12 +156,23 @@ interface ClerkContextType extends ClerkState {
 const ClerkContext = createContext<ClerkContextType | undefined>(undefined);
 
 export function ClerkProvider({ children }: { children: ReactNode }) {
-  const [specialty, setSpecialty] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const urlSpecialty = searchParams?.get("specialty");
+
+  const [specialty, setSpecialty] = useState<string | null>(urlSpecialty);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(
     "biodata",
   );
   const [sections, setSections] = useState<ClerkSection[]>(PEDIATRICS_SECTIONS);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  // Sync specialty state with URL
+  useEffect(() => {
+    if (urlSpecialty && urlSpecialty !== specialty) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSpecialty(urlSpecialty);
+    }
+  }, [urlSpecialty, specialty]);
 
   const updateQuestionStatus = (
     questionId: string,
