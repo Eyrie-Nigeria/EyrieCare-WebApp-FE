@@ -34,7 +34,15 @@ export default function SavedCasesPage() {
         </div>
       </div>
 
-      <CaseLibrary cases={MOCK_CASES} />
+      <React.Suspense
+        fallback={
+          <div className="py-20 text-center text-slate-500">
+            Loading Library...
+          </div>
+        }
+      >
+        <CaseLibrary cases={MOCK_CASES} />
+      </React.Suspense>
     </div>
   );
 }
