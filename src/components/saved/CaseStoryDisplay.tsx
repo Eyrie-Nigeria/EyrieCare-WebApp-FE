@@ -65,7 +65,7 @@ export function CaseStoryDisplay({ story }: CaseStoryDisplayProps) {
                   Heart Rate
                 </span>
                 <span className="font-mono font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded">
-                  {story.vitals.hr} bpm
+                  {story.vitals.heartRate} bpm
                 </span>
               </li>
               <li className="flex justify-between items-center">
@@ -73,7 +73,7 @@ export function CaseStoryDisplay({ story }: CaseStoryDisplayProps) {
                   Respiration Rate
                 </span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">
-                  {story.vitals.rr} bpm
+                  {story.vitals.respiratoryRate} bpm
                 </span>
               </li>
               <li className="flex justify-between items-center">

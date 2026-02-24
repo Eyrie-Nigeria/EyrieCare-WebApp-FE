@@ -49,12 +49,12 @@ export function CaseDetailHeader({ caseData }: CaseDetailHeaderProps) {
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-              {caseData.title}
+              {caseData.chiefComplaint}
             </h1>
             <div className="flex flex-wrap gap-4 items-center text-sm text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark">
               <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-card-dashboard-dark border border-slate-200 dark:border-transparent px-2 py-1 rounded">
                 <IdCard className="w-4 h-4" />
-                ID: {caseData.patientId}
+                ID: {caseData.id.replace("case", "PT")}
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
@@ -72,9 +72,9 @@ export function CaseDetailHeader({ caseData }: CaseDetailHeaderProps) {
           <div className="flex flex-wrap gap-2 md:justify-end max-w-md">
             <Badge
               variant="outline"
-              className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-900/50"
+              className="capitalize bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-900/50"
             >
-              {caseData.specialty}
+              {caseData.specialtyId}
             </Badge>
             <Badge
               variant="outline"
@@ -86,7 +86,7 @@ export function CaseDetailHeader({ caseData }: CaseDetailHeaderProps) {
               variant="outline"
               className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-900/50"
             >
-              {caseData.difficulty}
+              Intermediate
             </Badge>
           </div>
         </div>
