@@ -25,5 +25,6 @@ export interface ClinicalStory extends Case {
   physicalExam: string;
   assessment: string;
   plan: string;
+  diagnostics?: string[];
   studentNotes?: string;
 }

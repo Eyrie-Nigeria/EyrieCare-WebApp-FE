@@ -137,3 +137,31 @@ export const MOCK_CASES: Case[] = [
     time: "04:30 PM",
   },
 ];
+
+import { ClinicalStory } from "@/lib/types/cases";
+
+export const MOCK_STORIES: Record<string, ClinicalStory> = {
+  "case-001": {
+    ...MOCK_CASES[0],
+    vitals: {
+      bp: "158/92",
+      heartRate: 104,
+      temp: "98.9°F (37.2°C)",
+      respiratoryRate: 20,
+      spo2: 96,
+    },
+    hpi: "Mr. Davis is a 45-year-old male with a past medical history significant for hypertension and hyperlipidemia who presents to the Emergency Department with acute onset substernal chest pain. The pain began approximately 2 hours prior to arrival while he was mowing the lawn. He describes the pain as a pressure-like sensation, rated 8/10 in severity, radiating to his left shoulder and jaw. Associated symptoms include shortness of breath, diaphoresis, and nausea. He denies syncope, palpitations, or recent trauma. He took 324mg of aspirin en route provided by EMS, with minimal relief.",
+    physicalExam:
+      "Patient appears anxious and diaphoretic. CV: Tachycardic, regular rhythm, S4 gallop present. No murmurs. Resp: Lungs clear to auscultation bilaterally. Ext: No edema, 2+ pulses in all extremities. Skin is cool and clammy.",
+    assessment:
+      "Acute Coronary Syndrome (ACS), likely STEMI given ECG findings.",
+    plan: "Activate Cath Lab. Administer Nitroglycerin 0.4mg SL. Start Heparin drip. Consult Cardiology.",
+    diagnostics: [
+      "ECG: Sinus tachycardia at 105 bpm. ST-segment elevation of 2mm in leads II, III, and aVF with reciprocal depression in leads I and aVL.",
+    ],
+  },
+};
+
+export const getCaseStory = (id: string): ClinicalStory | undefined => {
+  return MOCK_STORIES[id];
+};
