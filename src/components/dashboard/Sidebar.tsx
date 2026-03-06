@@ -22,6 +22,10 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { SidebarProps, NavItem } from "./types";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLogout } from "@/lib/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -40,6 +44,17 @@ const academicItems: NavItem[] = [
 export function Sidebar({ className, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [isAcademicOpen, setIsAcademicOpen] = useState(false);
+  const { mutate: logout, isPending } = useLogout();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSettled: () => {
+        toast.success("Logged out successfully");
+        router.push("/login");
+      },
+    });
+  };
 
   // Slightly reduced font size for better density as requested (text-sm to text-base)
   const itemBaseStyles =
@@ -191,10 +206,18 @@ export function Sidebar({ className, onClose }: SidebarProps) {
 
         <Button
           variant="default"
-          className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-white dark:text-surface-dashboard-dark font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all"
+          onClick={handleLogout}
+          disabled={isPending}
+          className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-white dark:text-surface-dashboard-dark font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <LogOut className="w-5 h-5" />
-          <span className="truncate">Log Out</span>
+          {isPending ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <LogOut className="w-5 h-5" />
+          )}
+          <span className="truncate">
+            {isPending ? "Logging out..." : "Log Out"}
+          </span>
         </Button>
       </div>
     </aside>

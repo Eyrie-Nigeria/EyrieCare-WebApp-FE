@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Manrope, Lexend } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -47,17 +48,19 @@ export default function RootLayout({
             dark: "dark",
           }}
         >
-          {children}
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              classNames: {
-                toast: "glass-effect",
-                title: "text-sm font-medium",
-                description: "text-sm opacity-90",
-              },
-            }}
-          />
+          <QueryProvider>
+            {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                classNames: {
+                  toast: "glass-effect",
+                  title: "text-sm font-medium",
+                  description: "text-sm opacity-90",
+                },
+              }}
+            />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

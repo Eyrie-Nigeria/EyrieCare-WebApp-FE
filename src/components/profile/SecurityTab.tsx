@@ -1,10 +1,57 @@
 "use client";
 
-import { Smartphone, Key, History, AlertTriangle } from "lucide-react";
+import { Smartphone, Key, History, AlertTriangle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useChangePassword } from "@/lib/hooks/useAuth";
+import { toast } from "sonner";
+
+const passwordSchema = z
+  .object({
+    current_password: z.string().min(1, "Current password is required"),
+    new_password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string(),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
+
+type PasswordFormValues = z.infer<typeof passwordSchema>;
 
 export function SecurityTab() {
+  const { mutate: changePassword, isPending: isChangingPassword } =
+    useChangePassword();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+    reset,
+  } = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordSchema),
+  });
+
+  const onSubmit = (data: PasswordFormValues) => {
+    changePassword(
+      {
+        current_password: data.current_password,
+        new_password: data.new_password,
+      },
+      {
+        onSuccess: (res) => {
+          toast.success(res.message || "Password updated successfully");
+          reset();
+        },
+        onError: (err) => {
+          toast.error(err.message || "Failed to update password");
+        },
+      },
+    );
+  };
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Password Change Card */}
@@ -18,7 +65,7 @@ export function SecurityTab() {
           </h3>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark uppercase tracking-wide">
@@ -26,9 +73,17 @@ export function SecurityTab() {
               </label>
               <Input
                 type="password"
+                {...register("current_password")}
+                disabled={isChangingPassword}
                 placeholder="••••••••"
+                className={errors.current_password ? "border-red-500" : ""}
                 leftIcon={<Key className="w-5 h-5" />}
               />
+              {errors.current_password && (
+                <p className="text-red-500 text-xs">
+                  {errors.current_password.message}
+                </p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -38,9 +93,17 @@ export function SecurityTab() {
               </label>
               <Input
                 type="password"
+                {...register("new_password")}
+                disabled={isChangingPassword}
                 placeholder="••••••••"
+                className={errors.new_password ? "border-red-500" : ""}
                 leftIcon={<Key className="w-5 h-5" />}
               />
+              {errors.new_password && (
+                <p className="text-red-500 text-xs">
+                  {errors.new_password.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark uppercase tracking-wide">
@@ -48,17 +111,37 @@ export function SecurityTab() {
               </label>
               <Input
                 type="password"
+                {...register("confirm_password")}
+                disabled={isChangingPassword}
                 placeholder="••••••••"
+                className={errors.confirm_password ? "border-red-500" : ""}
                 leftIcon={<Key className="w-5 h-5" />}
               />
+              {errors.confirm_password && (
+                <p className="text-red-500 text-xs">
+                  {errors.confirm_password.message}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex justify-start">
-            <Button variant="dashboard" className="px-6">
-              Update Password
+            <Button
+              type="submit"
+              variant="dashboard"
+              className="px-6"
+              disabled={!isDirty || isChangingPassword}
+            >
+              {isChangingPassword ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Updating...
+                </>
+              ) : (
+                "Update Password"
+              )}
             </Button>
           </div>
-        </div>
+        </form>
       </div>
 
       {/* Two-Factor Authentication */}

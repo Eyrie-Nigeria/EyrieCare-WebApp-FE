@@ -9,10 +9,12 @@ import {
   ChevronRight,
   Bot,
   ClipboardEdit,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { TopHeaderProps } from "./types";
+import { useProfile } from "@/lib/hooks/useAuth";
 
 export function TopHeader({
   onMenuClick,
@@ -23,6 +25,9 @@ export function TopHeader({
   const isAIMode = pathname?.includes("/ai");
   const isManualMode = pathname?.includes("/manual");
   const showToggle = isAIMode || isManualMode;
+
+  const { data: profileResponse } = useProfile();
+  const user = profileResponse?.data;
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap bg-surface-dashboard-light dark:bg-surface-dashboard-dark border-b border-slate-200 dark:border-card-dashboard-dark px-6 py-4 shrink-0 z-10 transition-colors duration-200 font-dashboard shadow-sm">
@@ -119,13 +124,18 @@ export function TopHeader({
             href="/profile"
             className="flex items-center gap-2 cursor-pointer group"
           >
-            <div
-              className="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-transparent group-hover:ring-primary-dashboard transition-all border border-slate-200 dark:border-card-dashboard-dark"
-              style={{
-                backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYxwiTH8_6yubL0DhG14Yz014kmSM9FXdseWY2zX2jDmWKJ9Z8hr4urZn5yWZM4X6MTNgcXpXhSnPUHH28uZqPQ9pCISXdQU_acryGWO2d8Un0G5_0787xBxbj_Mm0EK5qeZ4gVRZp0WDL6O_GkYBcPU7VJtlOhv042-DbT3HcyF0yurRZD1xSG9qS1AKQy-8pLFkb9lDO8sI3C4uMdOLNemy6xx4Av-EkuPWdvaoCgHAU-GG2qwVi0ILtnMtpysH_ffE2XtHBd54")',
-              }}
-            />
+            {user?.profile_picture_url ? (
+              <div
+                className="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-transparent group-hover:ring-primary-dashboard transition-all border border-slate-200 dark:border-card-dashboard-dark"
+                style={{
+                  backgroundImage: `url("${user.profile_picture_url}")`,
+                }}
+              />
+            ) : (
+              <div className="flex items-center justify-center bg-slate-200 dark:bg-card-dashboard-dark/60 rounded-full size-10 ring-2 ring-transparent group-hover:ring-primary-dashboard transition-all border border-slate-200 dark:border-card-dashboard-dark">
+                <User className="w-5 h-5 text-slate-500" />
+              </div>
+            )}
           </Link>
         </div>
       </div>
