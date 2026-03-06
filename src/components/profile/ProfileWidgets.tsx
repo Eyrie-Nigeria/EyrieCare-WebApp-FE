@@ -1,9 +1,24 @@
 "use client";
 
-import { CheckCircle2, Circle, LogOut } from "lucide-react";
+import { CheckCircle2, Circle, LogOut, Loader2 } from "lucide-react";
 import { PreferenceToggleProps } from "./types";
+import { useLogout } from "@/lib/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function ProfileWidgets() {
+  const { mutate: logout, isPending } = useLogout();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSettled: () => {
+        toast.success("Logged out successfully");
+        router.push("/login"); // Ensure they go back to the login page
+      },
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {/* Profile Strength Widget */}
@@ -63,9 +78,17 @@ export function ProfileWidgets() {
 
       {/* Logout Link */}
       <div className="px-2">
-        <button className="flex items-center gap-2 text-red-500 hover:text-red-600 text-sm font-bold transition-all group">
-          <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          Log Out
+        <button
+          onClick={handleLogout}
+          disabled={isPending}
+          className="flex items-center gap-2 text-red-500 hover:text-red-600 text-sm font-bold transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isPending ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          )}
+          {isPending ? "Logging Out..." : "Log Out"}
         </button>
       </div>
     </div>
