@@ -8,6 +8,7 @@ import { fadeInUp } from "@/lib/animations";
 
 const footerLinks: FooterLinks = {
   product: [
+    { label: "Early Access", href: "/waitlist" },
     { label: "Features", href: "#features" },
     { label: "Pricing", href: "#pricing" },
     { label: "Testimonials", href: "#" },
@@ -43,7 +44,9 @@ export function Footer() {
               <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-text-main">
                 <Stethoscope className="w-4 h-4" />
               </div>
-              <h3 className="font-bold">EyrieCare</h3>
+              <h3 className="font-bold">
+                Eyrie<span className="text-primary">Care</span>
+              </h3>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Empowering the next generation of healthcare providers with

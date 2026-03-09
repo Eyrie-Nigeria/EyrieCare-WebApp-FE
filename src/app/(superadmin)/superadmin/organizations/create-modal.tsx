@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { X, Loader2 } from "lucide-react";
@@ -33,7 +33,7 @@ export function CreateOrganizationModal({ isOpen, onClose }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
     formState: { errors },
     reset,
@@ -46,7 +46,10 @@ export function CreateOrganizationModal({ isOpen, onClose }: Props) {
     },
   });
 
-  const nameValue = watch("name");
+  const nameValue = useWatch({
+    control,
+    name: "name",
+  });
 
   // Auto-generate slug from name
   useEffect(() => {

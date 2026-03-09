@@ -40,9 +40,9 @@ export function CTASection() {
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center"
               >
-                <Link href="/signup">
+                <Link href="/waitlist">
                   <Button size="lg" variant="gradient" className="min-w-40">
-                    Sign Up Now
+                    Get Started for Free
                   </Button>
                 </Link>
                 <Button size="lg" variant="secondary" className="min-w-40">
