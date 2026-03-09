@@ -3,7 +3,11 @@ import { ApiResponse } from "@/lib/types/auth";
 
 export interface WaitlistPayload {
   email: string;
-  metadata?: Record<string, unknown>;
+  fullName: string;
+  isStudent: boolean;
+  courseOfStudy?: string;
+  specificCourse?: string;
+  yearOfStudy?: string;
 }
 
 export const publicService = {
