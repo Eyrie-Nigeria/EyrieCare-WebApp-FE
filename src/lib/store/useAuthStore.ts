@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { persist, StateStorage, createJSONStorage } from "zustand/middleware";
 import Cookies from "js-cookie";
-import { AuthTokens } from "@/lib/types/auth";
+import { AuthTokens, User } from "@/lib/types/auth";
 
 interface AuthState {
   tokens: AuthTokens | null;
+  user: User | null;
   setTokens: (tokens: AuthTokens | null) => void;
+  setUser: (user: User | null) => void;
   isAuthenticated: boolean;
   logout: () => void;
 }
@@ -29,9 +31,11 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       tokens: null,
+      user: null,
       isAuthenticated: false,
       setTokens: (tokens) => set({ tokens, isAuthenticated: !!tokens }),
-      logout: () => set({ tokens: null, isAuthenticated: false }),
+      setUser: (user) => set({ user }),
+      logout: () => set({ tokens: null, user: null, isAuthenticated: false }),
     }),
     {
       name: "auth-storage", // This will be the name of the cookie

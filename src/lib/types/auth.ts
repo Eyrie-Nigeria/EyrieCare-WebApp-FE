@@ -1,9 +1,18 @@
+export interface ApiMeta {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  has_next: boolean;
+  has_prev: boolean;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
   error: unknown | null;
-  meta: unknown | null;
+  meta: ApiMeta | null;
 }
 
 export interface AuthTokens {
@@ -31,6 +40,11 @@ export interface UpdateProfilePayload {
 export interface ChangePasswordPayload {
   current_password: string;
   new_password: string;
+}
+
+export interface AcceptInvitePayload {
+  token: string;
+  password: string;
 }
 
 export interface User {

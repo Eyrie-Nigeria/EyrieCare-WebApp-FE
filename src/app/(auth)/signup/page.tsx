@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Mail, ChevronDown, Eye, EyeOff, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,7 +22,6 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
   const { mutate: signup, isPending } = useSignup();
 
   const {
@@ -49,7 +47,6 @@ export default function SignupPage() {
     signup(payload, {
       onSuccess: (response) => {
         toast.success(response.message || "Registration successful");
-        router.push("/dashboard");
       },
       onError: (error: Error) => {
         toast.error(error.message || "Registration failed. Please try again.");

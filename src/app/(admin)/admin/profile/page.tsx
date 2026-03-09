@@ -3,10 +3,10 @@
 import { ProfileView } from "@/components/profile";
 import { Suspense } from "react";
 
-export default function StudentProfilePage() {
+export default function AdminProfilePage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ProfileView userType="student" />
+      <ProfileView userType="admin" />
     </Suspense>
   );
 }

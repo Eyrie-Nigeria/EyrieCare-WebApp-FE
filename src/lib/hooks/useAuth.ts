@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
 import {
   LoginPayload,
   SignupPayload,
   UpdateProfilePayload,
   ChangePasswordPayload,
+  AcceptInvitePayload,
   ApiResponse,
   AuthTokens,
   User,
@@ -13,12 +15,34 @@ import { useAuthStore } from "@/lib/store/useAuthStore";
 
 export const useLogin = () => {
   const setTokens = useAuthStore((state) => state.setTokens);
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
 
   return useMutation<ApiResponse<AuthTokens>, Error, LoginPayload>({
     mutationFn: authService.login,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (response.success && response.data) {
         setTokens(response.data);
+
+        // Fetch user profile immediately to get the role
+        try {
+          const profileRes = await authService.getProfile();
+          if (profileRes.success && profileRes.data) {
+            setUser(profileRes.data);
+
+            // Role-based redirect
+            const role = profileRes.data.role.toLowerCase();
+            if (role === "superadmin") {
+              router.push("/superadmin");
+            } else if (role === "admin") {
+              router.push("/admin");
+            } else {
+              router.push("/dashboard");
+            }
+          }
+        } catch {
+          router.push("/dashboard");
+        }
       }
     },
   });
@@ -26,12 +50,33 @@ export const useLogin = () => {
 
 export const useSignup = () => {
   const setTokens = useAuthStore((state) => state.setTokens);
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
 
   return useMutation<ApiResponse<AuthTokens>, Error, SignupPayload>({
     mutationFn: authService.register,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (response.success && response.data) {
         setTokens(response.data);
+
+        try {
+          const profileRes = await authService.getProfile();
+          if (profileRes.success && profileRes.data) {
+            setUser(profileRes.data);
+
+            // Role-based redirect
+            const role = profileRes.data.role.toLowerCase();
+            if (role === "superadmin") {
+              router.push("/superadmin");
+            } else if (role === "admin") {
+              router.push("/admin");
+            } else {
+              router.push("/dashboard");
+            }
+          }
+        } catch {
+          router.push("/dashboard");
+        }
       }
     },
   });
@@ -110,5 +155,11 @@ export const useDeleteProfilePicture = () => {
 export const useChangePassword = () => {
   return useMutation<ApiResponse<null>, Error, ChangePasswordPayload>({
     mutationFn: authService.changePassword,
+  });
+};
+
+export const useAcceptInvite = () => {
+  return useMutation<ApiResponse<AuthTokens>, Error, AcceptInvitePayload>({
+    mutationFn: authService.acceptInvite,
   });
 };

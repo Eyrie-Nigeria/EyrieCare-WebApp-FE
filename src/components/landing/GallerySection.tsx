@@ -53,8 +53,8 @@ export function GallerySection() {
               See how it works
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mt-2 text-center max-w-3xl">
-              A user interface designed for focus, clarity, and efficiency
-              during your busiest rotations.
+              A user interface designed for focus and efficiency during your
+              busiest rotations.
             </p>
           </motion.div>
 

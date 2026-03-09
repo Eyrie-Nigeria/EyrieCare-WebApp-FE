@@ -10,6 +10,8 @@ import {
   Bot,
   ClipboardEdit,
   User,
+  LayoutDashboard,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -115,13 +117,52 @@ export function TopHeader({
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          {/* Portal Switcher */}
+          {user?.role &&
+            ((user.role.toLowerCase() === "superadmin" &&
+              !pathname?.startsWith("/superadmin")) ||
+              (user.role.toLowerCase() === "admin" &&
+                !pathname?.startsWith("/admin") &&
+                !pathname?.startsWith("/superadmin"))) && (
+              <Link
+                href={
+                  user.role.toLowerCase() === "superadmin"
+                    ? "/superadmin"
+                    : "/admin"
+                }
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:flex items-center gap-2 border-primary-dashboard/20 hover:border-primary-dashboard hover:bg-primary-dashboard/5 text-primary-dashboard h-9 px-4 rounded-xl font-bold"
+                >
+                  {user.role.toLowerCase() === "superadmin" ? (
+                    <ShieldCheck className="w-4 h-4" />
+                  ) : (
+                    <LayoutDashboard className="w-4 h-4" />
+                  )}
+                  <span className="text-xs uppercase tracking-wider">
+                    {user.role.toLowerCase() === "superadmin"
+                      ? "Superadmin Portal"
+                      : "Admin Portal"}
+                  </span>
+                </Button>
+              </Link>
+            )}
+
           <button className="flex items-center justify-center rounded-full size-10 bg-slate-100 dark:bg-card-dashboard-dark/40 text-slate-600 dark:text-white hover:text-primary-dashboard dark:hover:text-primary-dashboard transition-colors relative border border-slate-200 dark:border-card-dashboard-dark">
             <Bell className="w-5 h-5" />
             <span className="absolute top-2 right-2 size-2 bg-primary-dashboard rounded-full border-2 border-surface-dashboard-light dark:border-surface-dashboard-dark"></span>
           </button>
 
           <Link
-            href="/profile"
+            href={
+              pathname?.startsWith("/superadmin")
+                ? "/superadmin/profile"
+                : pathname?.startsWith("/admin")
+                  ? "/admin/profile"
+                  : "/profile"
+            }
             className="flex items-center gap-2 cursor-pointer group"
           >
             {user?.profile_picture_url ? (

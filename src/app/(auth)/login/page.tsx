@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,7 +22,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
   const { mutate: login, isPending } = useLogin();
 
   const {
@@ -42,7 +40,6 @@ export default function LoginPage() {
     login(data, {
       onSuccess: (response) => {
         toast.success(response.message || "Login successful");
-        router.push("/dashboard");
       },
       onError: (error: Error) => {
         toast.error(error.message || "Invalid credentials. Please try again.");
