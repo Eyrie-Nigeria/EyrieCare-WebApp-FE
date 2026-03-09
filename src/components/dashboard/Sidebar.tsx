@@ -26,6 +26,7 @@ import { useLogout } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useAuthStore } from "@/lib/store/useAuthStore";
 
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -46,6 +47,7 @@ export function Sidebar({ className, onClose }: SidebarProps) {
   const [isAcademicOpen, setIsAcademicOpen] = useState(false);
   const { mutate: logout, isPending } = useLogout();
   const router = useRouter();
+  const user = useAuthStore((state) => state.user);
 
   const handleLogout = () => {
     logout(undefined, {
@@ -177,48 +179,60 @@ export function Sidebar({ className, onClose }: SidebarProps) {
       </div>
 
       <div className="flex flex-col gap-4">
-        {/* Profile & Settings */}
-        <div className="flex flex-col gap-1 border-t border-slate-100 dark:border-white/5 pt-4">
-          <Link
-            href="/profile"
-            className={cn(
-              itemBaseStyles,
-              pathname.startsWith("/profile") &&
-                pathname !== "/profile/settings"
-                ? activeStyles
-                : inactiveStyles,
-            )}
-          >
-            <User className="w-5 h-5 lg:w-5.5 lg:h-5.5" /> Profile
-          </Link>
-          <Link
-            href="/profile/settings"
-            className={cn(
-              itemBaseStyles,
-              pathname.startsWith("/profile/settings")
-                ? activeStyles
-                : inactiveStyles,
-            )}
-          >
-            <Settings className="w-5 h-5 lg:w-5.5 lg:h-5.5" /> Settings
-          </Link>
-        </div>
-
-        <Button
-          variant="default"
-          onClick={handleLogout}
-          disabled={isPending}
-          className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-white dark:text-surface-dashboard-dark font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-        >
-          {isPending ? (
-            <Loader2 className="w-5 h-5 animate-spin" />
-          ) : (
-            <LogOut className="w-5 h-5" />
+        {/* Profile & Settings - Only show for regular users */}
+        {user?.role?.toLowerCase() !== "admin" &&
+          user?.role?.toLowerCase() !== "superadmin" && (
+            <div className="flex flex-col gap-1 border-t border-slate-100 dark:border-white/5 pt-4">
+              <Link
+                href="/profile"
+                className={cn(
+                  itemBaseStyles,
+                  pathname.startsWith("/profile") &&
+                    pathname !== "/profile/settings"
+                    ? activeStyles
+                    : inactiveStyles,
+                )}
+              >
+                <User className="w-5 h-5 lg:w-5.5 lg:h-5.5" /> Profile
+              </Link>
+              <Link
+                href="/profile/settings"
+                className={cn(
+                  itemBaseStyles,
+                  pathname.startsWith("/profile/settings")
+                    ? activeStyles
+                    : inactiveStyles,
+                )}
+              >
+                <Settings className="w-5 h-5 lg:w-5.5 lg:h-5.5" /> Settings
+              </Link>
+            </div>
           )}
-          <span className="truncate">
-            {isPending ? "Logging out..." : "Log Out"}
-          </span>
-        </Button>
+
+        <div
+          className={cn(
+            "flex flex-col gap-1",
+            (user?.role?.toLowerCase() === "admin" ||
+              user?.role?.toLowerCase() === "superadmin") &&
+              "border-t border-slate-100 dark:border-white/5 pt-4",
+          )}
+        >
+          <Button
+            variant="default"
+            onClick={handleLogout}
+            disabled={isPending}
+            className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-white dark:text-surface-dashboard-dark font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isPending ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <LogOut className="w-5 h-5" />
+            )}
+            <span className="truncate">
+              {isPending ? "Logging out..." : "Log Out"}
+            </span>
+          </Button>
+        </div>
       </div>
     </aside>
   );

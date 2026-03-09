@@ -5,3 +5,4 @@ export * from "./ProfileInfoCard";
 export * from "./ProfileWidgets";
 export * from "./SecurityTab";
 export * from "./types";
+export * from "./ProfileView";

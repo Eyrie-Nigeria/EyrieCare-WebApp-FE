@@ -6,6 +6,7 @@ import {
   SignupPayload,
   UpdateProfilePayload,
   ChangePasswordPayload,
+  AcceptInvitePayload,
   User,
 } from "@/lib/types/auth";
 
@@ -76,6 +77,16 @@ export const authService = {
   deleteProfilePicture: async (id: string): Promise<ApiResponse<User>> => {
     return apiClient<ApiResponse<User>>(`/users/${id}/profile-picture`, {
       method: "DELETE",
+    });
+  },
+
+  acceptInvite: async (
+    data: AcceptInvitePayload,
+  ): Promise<ApiResponse<AuthTokens>> => {
+    return apiClient<ApiResponse<AuthTokens>>("/auth/accept-invite", {
+      method: "POST",
+      body: JSON.stringify(data),
+      requireAuth: false,
     });
   },
 };

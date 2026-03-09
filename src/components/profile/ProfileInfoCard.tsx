@@ -6,15 +6,21 @@ import {
   Stethoscope,
   MapPin,
   Loader2,
+  User,
 } from "lucide-react";
 import { useRef } from "react";
 import { useProfile, useUploadProfilePicture } from "@/lib/hooks/useAuth";
+import { useOrganizations } from "@/lib/hooks/useAdmin";
 import { toast } from "sonner";
 
 export function ProfileInfoCard() {
   const { data: profileResponse } = useProfile();
   const { mutate: uploadPicture, isPending } = useUploadProfilePicture();
   const user = profileResponse?.data;
+  const { data: orgsResponse } = useOrganizations({ per_page: 100 });
+  const myOrg =
+    orgsResponse?.data?.items?.find((o) => o.id === user?.organization_id) ??
+    null;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,10 +53,8 @@ export function ProfileInfoCard() {
     );
   };
 
-  // Fallback to the previous default if the user has no custom picture
-  const avatarUrl =
-    user?.profile_picture_url ||
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBO31lvdoCr6L5WXM8qUYxa9Md8rXwogb2zLFVXK96e-Ix4nHsKDSmzP1xl8Mx3Dru_StdgiCGNlCkP55c6MPidspN8JFHzqZ_HZi8P7vk5SvR5Z9-y1KQeoqLnIUB7o1pFuw_eQutHCxxSioRBJPK6yN5pmsJsgToL6mBQg9xpfoDH-N_mBdbx3Cw6DI7VJah-bZVQyaCaKNzBmsPCbSdS3I5_0UUsYZjmiJhSSZFI4bR2UoqxqsfqkLUrKQPCRZJOp4_yDPflbMU";
+  // No longer using hardcoded placeholder URL
+  const avatarUrl = user?.profile_picture_url;
 
   return (
     <section className="bg-card-dashboard-light dark:bg-card-dashboard-dark rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-transparent transition-all duration-300">
@@ -64,10 +68,18 @@ export function ProfileInfoCard() {
             accept="image/*"
             className="hidden"
           />
-          <div
-            className={`bg-center bg-no-repeat bg-cover rounded-full size-32 md:size-40 border-4 border-slate-100 dark:border-background-dashboard-dark shadow-md ${isPending ? "opacity-50" : ""}`}
-            style={{ backgroundImage: `url("${avatarUrl}")` }}
-          />
+          {avatarUrl ? (
+            <div
+              className={`bg-center bg-no-repeat bg-cover rounded-full size-32 md:size-40 border-4 border-slate-100 dark:border-background-dashboard-dark shadow-md ${isPending ? "opacity-50" : ""}`}
+              style={{ backgroundImage: `url("${avatarUrl}")` }}
+            />
+          ) : (
+            <div
+              className={`flex items-center justify-center rounded-full size-32 md:size-40 border-4 border-slate-100 dark:border-background-dashboard-dark shadow-md bg-linear-to-br from-slate-100 to-slate-200 dark:from-white/5 dark:to-white/10 ${isPending ? "opacity-50" : ""}`}
+            >
+              <User className="size-16 md:size-20 text-slate-400 dark:text-slate-500" />
+            </div>
+          )}
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isPending}
@@ -87,10 +99,14 @@ export function ProfileInfoCard() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full">
             <div>
               <h1 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight capitalize">
-                {user?.email?.split("@")[0] || "User"}
+                {user?.email?.split("@")[0] || "Authenticated User"}
               </h1>
               <p className="text-primary-dashboard text-lg font-medium mt-1">
-                3rd Year Medical Student
+                {user?.role === "superadmin"
+                  ? "System Architect"
+                  : user?.role === "admin"
+                    ? "Clinical Administrator"
+                    : "Medical Professional"}
               </p>
             </div>
           </div>
@@ -99,19 +115,19 @@ export function ProfileInfoCard() {
             <div className="flex items-center gap-2 group cursor-default">
               <GraduationCap className="w-5 h-5 text-primary-dashboard" />
               <span className="text-slate-700 dark:text-gray-300">
-                Stanford Medicine
+                {myOrg?.name || "EyrieCare Network"}
               </span>
             </div>
             <div className="flex items-center gap-2 group cursor-default">
               <div className="bg-primary-dashboard/10 text-primary-dashboard px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1.5">
                 <Stethoscope className="w-3.5 h-3.5" />
-                Rotation: Cardiology
+                Auth: {user?.role || "Global"}
               </div>
             </div>
             <div className="flex items-center gap-2 group cursor-default">
               <MapPin className="w-5 h-5 text-primary-dashboard" />
               <span className="text-slate-700 dark:text-gray-300">
-                Palo Alto, CA
+                {myOrg?.official_acronym || "Institutional Node"}
               </span>
             </div>
           </div>
