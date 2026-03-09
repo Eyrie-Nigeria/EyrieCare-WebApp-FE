@@ -24,7 +24,7 @@ export function AuthBranding() {
           variants={fadeInUp}
           initial="initial"
           animate="animate"
-          className="h-12 w-12 rounded-xl bg-primary-auth flex items-center justify-center text-background-auth-deep"
+          className="h-12 w-12 rounded-xl bg-primary-dashboard flex items-center justify-center text-text-main"
         >
           <Stethoscope className="w-8 h-8" />
         </motion.div>
@@ -61,7 +61,7 @@ export function AuthBranding() {
                 src={url}
               />
             ))}
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-surface-auth-dark bg-primary-auth text-xs font-bold text-background-auth-deep">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-surface-auth-dark bg-primary-dashboard text-xs font-bold text-text-main">
               +2k
             </div>
           </div>

@@ -32,7 +32,7 @@ export function Header() {
             <Stethoscope className="w-5 h-5" />
           </motion.div>
           <h2 className="text-lg font-bold leading-tight tracking-tight">
-            EyrieCare
+            Eyrie<span className="text-primary">Care</span>
           </h2>
         </Link>
 
@@ -56,8 +56,8 @@ export function Header() {
                 Login
               </Button>
             </Link>
-            <Link href="/signup">
-              <Button>Sign Up</Button>
+            <Link href="/waitlist">
+              <Button>Get Started</Button>
             </Link>
             {/* Mobile Menu Button */}
             <Button
@@ -103,8 +103,11 @@ export function Header() {
                       Login
                     </Button>
                   </Link>
-                  <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full py-6">Sign Up</Button>
+                  <Link
+                    href="/waitlist"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Button className="w-full py-6">Get Started</Button>
                   </Link>
                 </div>
               </div>

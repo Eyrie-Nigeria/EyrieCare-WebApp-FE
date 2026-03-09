@@ -17,11 +17,11 @@ export default function AuthLayout({
         <div className="w-full max-w-[440px] flex flex-col gap-8">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2 mb-4">
-            <div className="h-10 w-10 rounded-lg bg-primary-auth flex items-center justify-center text-background-auth-deep">
+            <div className="h-10 w-10 rounded-lg bg-primary-dashboard flex items-center justify-center text-text-main">
               <Stethoscope className="w-6 h-6" />
             </div>
             <span className="text-xl font-bold text-text-main dark:text-white">
-              EyrieCare
+              Eyrie<span className="text-primary-dashboard">Care</span>
             </span>
           </div>
 

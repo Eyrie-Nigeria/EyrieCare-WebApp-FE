@@ -58,9 +58,9 @@ export function Sidebar({ className, onClose }: SidebarProps) {
   const itemBaseStyles =
     "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group relative font-sans font-bold text-sm lg:text-base";
   const activeStyles =
-    "bg-primary-dashboard/10 dark:bg-primary-dashboard text-primary-dashboard dark:text-surface-dashboard-dark font-black";
+    "bg-primary-dashboard dark:bg-primary-dashboard text-text-main font-black shadow-lg shadow-primary-dashboard/20";
   const inactiveStyles =
-    "text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 opacity-70 hover:opacity-100";
+    "text-text-main dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 opacity-70 hover:opacity-100";
 
   return (
     <aside
@@ -72,12 +72,12 @@ export function Sidebar({ className, onClose }: SidebarProps) {
       <div className="flex flex-col gap-6">
         {/* Logo Section */}
         <div className="flex gap-3 items-center px-2 mb-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-dashboard text-white dark:text-surface-dashboard-dark shadow-sm">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-dashboard text-text-main shadow-sm shadow-primary-dashboard/30">
             <Stethoscope className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl lg:text-2xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
-              EyrieCare
+            <h2 className="text-xl lg:text-2xl font-black leading-tight tracking-tight text-text-main dark:text-white">
+              Eyrie<span className="text-primary-dashboard">Care</span>
             </h2>
             <p className="text-[10px] text-primary-dashboard font-black tracking-[0.2em] uppercase mt-0.5">
               Superadmin
@@ -113,8 +113,8 @@ export function Sidebar({ className, onClose }: SidebarProps) {
                     className={cn(
                       "w-5 h-5 lg:w-5.5 lg:h-5.5 transition-transform group-hover:scale-110",
                       isActive
-                        ? "text-primary-dashboard dark:text-surface-dashboard-dark opacity-100"
-                        : "text-slate-500 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white",
+                        ? "text-text-main opacity-100"
+                        : "text-slate-500 dark:text-white/60 group-hover:text-text-main dark:group-hover:text-white",
                     )}
                   />
                   <span>{item.label}</span>
@@ -165,7 +165,7 @@ export function Sidebar({ className, onClose }: SidebarProps) {
           variant="default"
           onClick={handleLogout}
           disabled={isPending}
-          className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-white dark:text-surface-dashboard-dark font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full bg-primary-dashboard hover:bg-primary-dashboard-hover text-text-main font-black gap-2 rounded-xl h-11 lg:h-12 text-sm lg:text-base transition-all shadow-lg shadow-primary-dashboard/10 disabled:opacity-70"
         >
           {isPending ? (
             <Loader2 className="w-5 h-5 animate-spin" />

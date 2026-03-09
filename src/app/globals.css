@@ -5,8 +5,8 @@
   /* Brand Colors from Stitch Design */
   --color-primary: #13ecb6;
   --color-primary-hover: #0fd4a3;
-  --color-primary-auth: #2bee79;
-  --color-primary-auth-hover: #24d36b;
+  --color-primary-auth: #13ecb6;
+  --color-primary-auth-hover: #0fd4a3;
 
   --color-background-light: #f6f8f8;
   --color-background-dark: #10221d;
@@ -24,17 +24,17 @@
   --color-border-dark: #1e3a34;
   --color-border-auth-green: #326747;
 
-  --color-primary-dashboard: #11d452;
-  --color-primary-dashboard-hover: #0eb645;
+  --color-primary-dashboard: #13ecb6;
+  --color-primary-dashboard-hover: #0fd4a3;
 
-  --color-background-dashboard-light: #f6f8f6;
-  --color-background-dashboard-dark: #102216;
+  --color-background-dashboard-light: #f6f8f8;
+  --color-background-dashboard-dark: #10221d;
 
   --color-surface-dashboard-light: #ffffff;
-  --color-surface-dashboard-dark: #112217;
+  --color-surface-dashboard-dark: #152d26;
 
   --color-card-dashboard-light: #ffffff;
-  --color-card-dashboard-dark: #23482f;
+  --color-card-dashboard-dark: #152d26;
 
   --color-text-dashboard-secondary-light: #64748b;
   --color-text-dashboard-secondary-dark: #92c9a8;
@@ -103,7 +103,7 @@
 
 @layer utilities {
   .text-gradient {
-    @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-teal-400;
+    @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-primary-hover;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -113,7 +113,7 @@
     background: transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-border-auth-green rounded-full;
+    @apply bg-primary/20 hover:bg-primary/40 rounded-full;
   }
 
   .scrollbar-hide::-webkit-scrollbar {

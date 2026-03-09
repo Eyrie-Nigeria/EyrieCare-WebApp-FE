@@ -40,7 +40,7 @@ export function HeroSection() {
             </motion.div>
 
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-3">
-              <Link href="/signup">
+              <Link href="/waitlist">
                 <Button size="lg" variant="gradient">
                   Get Started for Free
                 </Button>
