@@ -23,7 +23,7 @@ export function AuthTabs() {
         Login
       </Link>
       <Link
-        href="/signup"
+        href="/waitlist"
         className={cn(
           "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-200 text-center",
           isSignup

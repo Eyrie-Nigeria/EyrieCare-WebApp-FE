@@ -1,80 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
   Mail,
-  User,
   Loader2,
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  ChevronDown,
-  GraduationCap,
 } from "lucide-react";
 import { useJoinWaitlist } from "@/lib/hooks/usePublic";
 import { toast } from "sonner";
 import { cn } from "@/lib/cn";
-import { motion, AnimatePresence } from "framer-motion";
 
-const COURSES = [
-  "Medicine & Surgery",
-  "Dentistry",
-  "Nursing",
-  "Pharmacy",
-  "Medical Laboratory Science",
-  "Anatomy",
-  "Physiology",
-  "Biochemistry",
-  "Public Health",
-  "Other",
-];
-
-const STUDY_LEVELS = [
-  "Pre-clinical (Year 1–2)",
-  "Clinical (Year 3–5)",
-  "Final Year / Electives",
-  "House Officer / Intern",
-  "Resident Doctor",
-  "Consultant / Specialist",
-  "Lecturer / Academic",
-];
-
-const waitlistSchema = z
-  .object({
-    fullName: z.string().min(2, "Please enter your full name"),
-    email: z.string().email("Please enter a valid email address"),
-    isStudent: z.enum(["yes", "no", "other"]).optional(),
-    courseOfStudy: z.string().optional(),
-    specificCourse: z.string().optional(),
-    yearOfStudy: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.isStudent) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select your role",
-        path: ["isStudent"],
-      });
-    }
-    const isMedical = data.isStudent === "yes" || data.isStudent === "no";
-    if (isMedical && !data.courseOfStudy?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select a course or specialty",
-        path: ["courseOfStudy"],
-      });
-    }
-    if (data.courseOfStudy === "Other" && !data.specificCourse?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please specify your course",
-        path: ["specificCourse"],
-      });
-    }
-  });
+const waitlistSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  role: z.enum(["student", "doctor"], {
+    error: "Please select your role",
+  }),
+});
 
 type WaitlistValues = z.infer<typeof waitlistSchema>;
 
@@ -85,37 +31,21 @@ export function WaitlistForm() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
     reset,
   } = useForm<WaitlistValues>({
     resolver: zodResolver(waitlistSchema),
     defaultValues: {
-      fullName: "",
       email: "",
-      isStudent: undefined,
-      courseOfStudy: "",
-      specificCourse: "",
-      yearOfStudy: "",
+      role: undefined,
     },
   });
-
-  const courseOfStudy = useWatch({ control, name: "courseOfStudy" });
-  const isStudentValue = useWatch({ control, name: "isStudent" });
-  const showMedicalFields = isStudentValue === "yes" || isStudentValue === "no";
-  const showSpecificCourse = courseOfStudy === "Other";
 
   const onSubmit = (data: WaitlistValues) => {
     joinWaitlist(
       {
         email: data.email,
-        fullName: data.fullName,
-        isStudent: data.isStudent === "yes",
-        courseOfStudy:
-          data.courseOfStudy === "Other"
-            ? (data.specificCourse ?? "Other")
-            : data.courseOfStudy,
-        yearOfStudy: data.yearOfStudy || undefined,
+        role: data.role,
       },
       {
         onSuccess: (response) => {
@@ -183,29 +113,6 @@ export function WaitlistForm() {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Full Name */}
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary-dashboard transition-colors">
-              <User className="w-4.5 h-4.5" />
-            </div>
-            <input
-              {...register("fullName")}
-              type="text"
-              placeholder="Full name"
-              disabled={isPending}
-              className={cn(
-                inputBase,
-                "pl-11",
-                errors.fullName ? inputError : inputIdle,
-              )}
-            />
-            {errors.fullName && (
-              <p className="mt-1.5 text-xs font-bold text-red-500 ml-1">
-                {errors.fullName.message}
-              </p>
-            )}
-          </div>
-
           {/* Email */}
           <div className="relative group">
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary-dashboard transition-colors">
@@ -229,16 +136,15 @@ export function WaitlistForm() {
             )}
           </div>
 
-          {/* Role: Student or Professional */}
+          {/* Role: Student or Doctor */}
           <div className="space-y-2">
             <p className="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
-              I am currently a...
+              I am a...
             </p>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { value: "yes", label: "Medical Student" },
-                { value: "no", label: "Healthcare Professional" },
-                { value: "other", label: "Not in Medical Field" },
+                { value: "student", label: "Medical Student" },
+                { value: "doctor", label: "Doctor" },
               ].map((opt) => (
                 <label
                   key={opt.value}
@@ -250,7 +156,7 @@ export function WaitlistForm() {
                   )}
                 >
                   <input
-                    {...register("isStudent")}
+                    {...register("role")}
                     type="radio"
                     value={opt.value}
                     className="sr-only"
@@ -260,122 +166,12 @@ export function WaitlistForm() {
                 </label>
               ))}
             </div>
-            {errors.isStudent && (
+            {errors.role && (
               <p className="text-xs font-bold text-red-500 ml-1">
-                {errors.isStudent.message}
+                {errors.role.message}
               </p>
             )}
           </div>
-
-          {/* Course + Year — only for medical roles */}
-          <AnimatePresence>
-            {showMedicalFields && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="overflow-hidden space-y-4"
-              >
-                {/* Course of Study */}
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary-dashboard transition-colors">
-                    <GraduationCap className="w-4.5 h-4.5" />
-                  </div>
-                  <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                  <select
-                    {...register("courseOfStudy")}
-                    disabled={isPending}
-                    className={cn(
-                      inputBase,
-                      "pl-11 pr-10 appearance-none cursor-pointer",
-                      errors.courseOfStudy ? inputError : inputIdle,
-                      !courseOfStudy
-                        ? "text-slate-400"
-                        : "text-text-main dark:text-white",
-                    )}
-                  >
-                    <option value="" disabled>
-                      Course of study / Specialty
-                    </option>
-                    {COURSES.map((c) => (
-                      <option
-                        key={c}
-                        value={c}
-                        className="text-text-main dark:text-white bg-surface-dark"
-                      >
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.courseOfStudy && (
-                    <p className="mt-1.5 text-xs font-bold text-red-500 ml-1">
-                      {errors.courseOfStudy.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Dynamic: Specify if Other */}
-                <AnimatePresence>
-                  {showSpecificCourse && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <input
-                        {...register("specificCourse")}
-                        type="text"
-                        placeholder="Please specify your course or specialty"
-                        disabled={isPending}
-                        className={cn(
-                          inputBase,
-                          errors.specificCourse ? inputError : inputIdle,
-                        )}
-                      />
-                      {errors.specificCourse && (
-                        <p className="mt-1.5 text-xs font-bold text-red-500 ml-1">
-                          {errors.specificCourse.message}
-                        </p>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Year of Study / Level */}
-                <div className="relative group">
-                  <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                  <select
-                    {...register("yearOfStudy")}
-                    disabled={isPending}
-                    className={cn(
-                      inputBase,
-                      "pr-10 appearance-none cursor-pointer",
-                      errors.yearOfStudy ? inputError : inputIdle,
-                      "text-slate-400 dark:text-slate-400",
-                    )}
-                  >
-                    <option value="">Year of study / Level (optional)</option>
-                    {STUDY_LEVELS.map((l) => (
-                      <option
-                        key={l}
-                        value={l}
-                        className="text-text-main dark:text-white bg-surface-dark"
-                      >
-                        {l}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Submit */}
           <button

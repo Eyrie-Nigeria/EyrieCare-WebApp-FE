@@ -36,12 +36,70 @@ export const apiClient = async <T>(
   };
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+
+  // If unauthorized, attempt to handle token refresh
+  if (response.status === 401 && requireAuth) {
+    const currentState = useAuthStore.getState();
+    const refreshToken = currentState.tokens?.refresh_token;
+
+    if (refreshToken && endpoint !== "/auth/refresh") {
+      try {
+        // Attempt to refresh the token directly via the API
+        const refreshRes = await fetch(`${API_BASE_URL}/auth/refresh`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          // Update the auth store with new tokens
+          if (refreshData?.data) {
+            currentState.setTokens(refreshData.data);
+
+            // Re-run the original request with the new access token
+            const retryConfig = {
+              ...config,
+              headers: {
+                ...config.headers,
+                Authorization: `Bearer ${refreshData.data.access_token}`,
+              },
+            };
+
+            const retryResponse = await fetch(
+              `${API_BASE_URL}${endpoint}`,
+              retryConfig,
+            );
+            const retryData = await retryResponse.json();
+
+            if (!retryResponse.ok) {
+              throw new Error(
+                retryData?.message ||
+                  retryData?.error ||
+                  retryResponse.statusText,
+              );
+            }
+            return retryData as T;
+          }
+        }
+      } catch (error) {
+        // Fall through to logout if refresh fails
+        console.error("Token refresh failed", error);
+      }
+    }
+
+    // If there's no refresh token, or the refresh failed, flush cache & logout
+    currentState.logout();
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+    throw new Error("Session expired. Please log in again.");
+  }
+
   const data = await response.json();
 
   if (!response.ok) {
-    // Handle the generic ApiResponse error format if it exists
-    const errorMessage = data?.message || data?.error || response.statusText;
-    throw new Error(errorMessage);
+    throw new Error(data?.message || data?.error || response.statusText);
   }
 
   return data as T;
