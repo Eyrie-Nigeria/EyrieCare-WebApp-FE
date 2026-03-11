@@ -17,7 +17,7 @@ const superAdminRoutes = ["/superadmin"];
 // Define auth routes (users shouldn't see these if they are already logged in)
 const authRoutes = ["/login", "/signup", "/forgot-password"];
 
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Since we configured Zustand to sync to cookies with the key 'auth-storage',

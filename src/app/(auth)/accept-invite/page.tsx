@@ -8,6 +8,8 @@ import * as z from "zod";
 import { Loader2, ShieldCheck, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 import { useAcceptInvite } from "@/lib/hooks/useAuth";
 
@@ -68,63 +70,59 @@ function AcceptInviteContent() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50 dark:bg-black">
-        <div className="w-full max-w-md bg-white dark:bg-card-dashboard-dark p-10 rounded-3xl shadow-2xl border border-slate-200 dark:border-white/5 text-center space-y-6">
-          <div className="size-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-10 h-10 text-green-500" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Account Verified!
-            </h1>
-            <p className="text-slate-500 mt-2">
-              Your password has been set. Welcome to EyrieCare.
-            </p>
-          </div>
-          <Link
-            href="/login"
-            className="block w-full py-4 bg-primary-dashboard text-white dark:text-surface-dashboard-dark font-black rounded-2xl hover:bg-primary-dashboard-hover transition-all shadow-xl shadow-primary-dashboard/20"
-          >
-            Go to Login
-          </Link>
+      <div className="flex flex-col gap-8 text-center sm:text-left">
+        <div className="size-20 bg-[#e7f3eb] dark:bg-[#1C2E24] rounded-full flex items-center justify-center mx-auto sm:mx-0">
+          <CheckCircle2 className="w-10 h-10 text-primary-auth" />
         </div>
+        <div>
+          <h1 className="text-text-main dark:text-white tracking-tight text-3xl font-bold leading-tight mb-2">
+            Account Verified!
+          </h1>
+          <p className="text-gray-500 dark:text-text-auth-light-green text-base">
+            Your password has been set. Welcome to EyrieCare.
+          </p>
+        </div>
+        <Link href="/login" className="w-full">
+          <Button className="w-full bg-primary-auth hover:bg-primary-auth-hover text-background-auth-deep font-bold py-7 py-3.5 text-base transition-all duration-200 shadow-[0_4px_14px_0_rgba(43,238,121,0.25)] hover:shadow-[0_6px_20px_rgba(43,238,121,0.35)] active:scale-[0.98]">
+            Go to Login
+          </Button>
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50 dark:bg-black">
-      <div className="w-full max-w-md bg-white dark:bg-card-dashboard-dark p-10 rounded-3xl shadow-2xl border border-slate-200 dark:border-white/5 space-y-8">
-        <div className="text-center">
-          <div className="size-16 bg-primary-dashboard/10 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3 transform">
-            <ShieldCheck className="w-8 h-8 text-primary-dashboard" />
-          </div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-            Complete Your <br />
-            Registration
-          </h1>
-          <p className="text-slate-500 mt-2 font-medium">
-            Set a secure password for your new account.
-          </p>
+    <div className="flex flex-col gap-8">
+      <div className="text-center sm:text-left">
+        <div className="size-16 bg-[#e7f3eb] dark:bg-[#1C2E24]  rounded-2xl flex items-center justify-center mx-auto sm:mx-0 mb-6 rotate-3 transform border border-border-auth-green/30">
+          <ShieldCheck className="w-8 h-8 text-primary-auth" />
         </div>
+        <h1 className="text-text-main dark:text-white tracking-tight text-3xl font-bold leading-tight mb-2">
+          Complete Your Registration
+        </h1>
+        <p className="text-gray-500 dark:text-text-auth-light-green text-base">
+          Set a secure password for your new account.
+        </p>
+      </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Password */}
-          <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                {...register("password")}
-                placeholder="••••••••"
-                className="w-full px-4 py-4 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-dashboard/30 focus:outline-none text-slate-900 dark:text-white font-medium transition-all"
-              />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        {/* Password */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-text-main dark:text-gray-200 text-sm font-semibold">
+            New Password
+          </label>
+          <Input
+            placeholder="••••••••"
+            type={showPassword ? "text" : "password"}
+            {...register("password")}
+            className={`dark:border-border-auth-green/30 dark:bg-surface-auth-dark ${
+              errors.password ? "border-red-500 focus-visible:ring-red-500" : ""
+            }`}
+            rightIcon={
               <button
+                className="text-gray-400 dark:text-text-auth-light-green hover:text-text-main dark:hover:text-white transition-colors cursor-pointer"
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -132,54 +130,64 @@ function AcceptInviteContent() {
                   <Eye className="w-5 h-5" />
                 )}
               </button>
-            </div>
-            {errors.password && (
-              <p className="text-xs font-bold text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          {/* Confirm Password */}
-          <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              {...register("confirmPassword")}
-              placeholder="••••••••"
-              className="w-full px-4 py-4 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-dashboard/30 focus:outline-none text-slate-900 dark:text-white font-medium transition-all"
-            />
-            {errors.confirmPassword && (
-              <p className="text-xs font-bold text-red-500">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading || !token}
-            className="w-full py-4 bg-primary-dashboard text-white dark:text-surface-dashboard-dark font-black rounded-2xl hover:bg-primary-dashboard-hover transition-all shadow-xl shadow-primary-dashboard/20 disabled:opacity-50 flex items-center justify-center gap-3"
-          >
-            {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : null}
-            {isLoading ? "Finalizing Account..." : "Set Password & Finish"}
-          </button>
-        </form>
-
-        {!token && (
-          <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl">
-            <p className="text-xs font-bold text-orange-600 dark:text-orange-400 text-center uppercase tracking-widest">
-              Security Warning
+            }
+          />
+          {errors.password && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.password.message}
             </p>
-            <p className="text-[10px] text-center text-slate-500 mt-1">
-              Invalid invitation token. Please check your email link or contact
-              support.
+          )}
+        </div>
+
+        {/* Confirm Password */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-text-main dark:text-gray-200 text-sm font-semibold">
+            Confirm Password
+          </label>
+          <Input
+            placeholder="••••••••"
+            type="password"
+            {...register("confirmPassword")}
+            className={`dark:border-border-auth-green/30 dark:bg-surface-auth-dark ${
+              errors.confirmPassword
+                ? "border-red-500 focus-visible:ring-red-500"
+                : ""
+            }`}
+          />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.confirmPassword.message}
             </p>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={isLoading || !token}
+          className="mt-2 w-full bg-primary-auth hover:bg-primary-auth-hover text-background-auth-deep font-bold py-7 py-3.5 text-base transition-all duration-200 shadow-[0_4px_14px_0_rgba(43,238,121,0.25)] hover:shadow-[0_6px_20px_rgba(43,238,121,0.35)] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Finalizing Account...
+            </>
+          ) : (
+            "Set Password & Finish"
+          )}
+        </Button>
+      </form>
+
+      {!token && (
+        <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl">
+          <p className="text-xs font-bold text-orange-600 dark:text-orange-400 text-center uppercase tracking-widest">
+            Security Warning
+          </p>
+          <p className="text-[10px] text-center text-gray-500 dark:text-text-auth-light-green mt-1">
+            Invalid invitation token. Please check your email link or contact
+            support.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -188,8 +196,8 @@ export default function AcceptInvitePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-black">
-          <Loader2 className="w-10 h-10 animate-spin text-primary-dashboard" />
+        <div className="flex w-full items-center justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-primary-auth" />
         </div>
       }
     >

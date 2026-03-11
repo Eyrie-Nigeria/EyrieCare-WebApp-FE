@@ -3,16 +3,12 @@ import { ApiResponse } from "@/lib/types/auth";
 
 export interface WaitlistPayload {
   email: string;
-  fullName: string;
-  isStudent: boolean;
-  courseOfStudy?: string;
-  specificCourse?: string;
-  yearOfStudy?: string;
+  role: "student" | "doctor";
 }
 
 export const publicService = {
   joinWaitlist: async (data: WaitlistPayload): Promise<ApiResponse<null>> => {
-    return apiClient<ApiResponse<null>>("/public/waitlist", {
+    return apiClient<ApiResponse<null>>("/auth/waitlist", {
       method: "POST",
       body: JSON.stringify(data),
       requireAuth: false,

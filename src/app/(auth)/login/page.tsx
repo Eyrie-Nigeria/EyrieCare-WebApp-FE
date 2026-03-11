@@ -141,7 +141,7 @@ export default function LoginPage() {
         <p className="text-sm text-gray-500 dark:text-text-auth-light-green">
           Don{"'"}t have an account?
           <Link
-            href="/signup"
+            href="/waitlist"
             className="font-bold text-primary-auth hover:text-primary-auth-hover transition-colors mx-1"
           >
             Sign Up
