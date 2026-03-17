@@ -39,3 +39,12 @@ export interface BulkUserPayload {
 export interface PaginatedResponse<T> {
   items: T[];
 }
+
+export interface WaitlistEntry {
+  id: number;
+  email: string;
+  role: string;
+  createdAt: string;
+  grantedAccess: boolean;
+  grantedAt: string | null;
+}

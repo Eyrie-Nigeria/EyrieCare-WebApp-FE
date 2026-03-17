@@ -7,6 +7,7 @@ import {
   PaginatedResponse,
   CreateUserPayload,
   BulkUserPayload,
+  WaitlistEntry,
 } from "@/lib/types/admin";
 
 export const adminService = {
@@ -230,6 +231,22 @@ export const adminService = {
     return apiClient<ApiResponse<User>>("/users", {
       method: "POST",
       body: JSON.stringify(data),
+    });
+  },
+
+  // --- Waitlist Management ---
+  getUnapprovedUsers: async (): Promise<ApiResponse<WaitlistEntry[]>> => {
+    return apiClient<ApiResponse<WaitlistEntry[]>>(
+      "/superadmin/unapproved-users",
+      {
+        method: "GET",
+      },
+    );
+  },
+
+  grantAccess: async (userId: number): Promise<ApiResponse<User>> => {
+    return apiClient<ApiResponse<User>>(`/superadmin/grant-access/${userId}`, {
+      method: "POST",
     });
   },
 };
