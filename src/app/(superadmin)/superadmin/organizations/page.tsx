@@ -79,30 +79,18 @@ export default function OrganizationsPage() {
     },
     {
       header: "Acronym",
-      render: (org) => (
-        <Badge className="bg-primary-dashboard/10 text-primary-dashboard border-primary-dashboard/20 font-black px-3 py-1">
-          {org.official_acronym}
-        </Badge>
-      ),
+      render: (org) => <Badge variant="eyrie">{org.official_acronym}</Badge>,
     },
     {
       header: "Status",
       render: (org) => {
         if (org.deleted_at) {
-          return (
-            <Badge variant="destructive" className="font-black">
-              Deleted
-            </Badge>
-          );
+          return <Badge variant="destructive">Deleted</Badge>;
         }
         return org.is_active ? (
-          <Badge className="bg-green-500/10 text-green-500 border-green-500/20 font-black">
-            Active
-          </Badge>
+          <Badge variant="success">Active</Badge>
         ) : (
-          <Badge variant="secondary" className="font-black">
-            Inactive
-          </Badge>
+          <Badge variant="secondary">Inactive</Badge>
         );
       },
     },

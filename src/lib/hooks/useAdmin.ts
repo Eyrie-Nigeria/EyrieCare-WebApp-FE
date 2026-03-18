@@ -193,3 +193,20 @@ export const useCreateUser = () => {
     },
   });
 };
+
+export const useUnapprovedUsers = () => {
+  return useQuery({
+    queryKey: ["unapproved-users"],
+    queryFn: () => adminService.getUnapprovedUsers(),
+  });
+};
+
+export const useGrantAccess = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userId: number) => adminService.grantAccess(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["unapproved-users"] });
+    },
+  });
+};

@@ -12,6 +12,7 @@ import {
   Settings,
   Stethoscope,
   Loader2,
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ import { motion } from "framer-motion";
 import { useLogout } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useUnapprovedUsers } from "@/lib/hooks/useAdmin";
+import { Badge } from "@/components/ui/badge";
 
 export interface NavItem {
   label: string;
@@ -39,12 +42,15 @@ const navItems: NavItem[] = [
     icon: Building2,
   },
   { label: "Users", href: "/superadmin/users", icon: Users },
+  { label: "Waitlist", href: "/superadmin/waitlist", icon: Clock },
 ];
 
 export function Sidebar({ className, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { mutate: logout, isPending } = useLogout();
   const router = useRouter();
+  const { data: waitlistResponse } = useUnapprovedUsers();
+  const waitlistCount = waitlistResponse?.data?.length ?? 5; // Fallback to mock for design preview
 
   const handleLogout = () => {
     logout(undefined, {
@@ -117,7 +123,19 @@ export function Sidebar({ className, onClose }: SidebarProps) {
                         : "text-slate-500 dark:text-white/60 group-hover:text-text-main dark:group-hover:text-white",
                     )}
                   />
-                  <span>{item.label}</span>
+                  <span className="flex-1">{item.label}</span>
+                  {item.label === "Waitlist" && waitlistCount > 0 && (
+                    <Badge
+                      className={cn(
+                        "ml-auto px-1.5 py-0 min-w-[20px] h-5 justify-center font-black text-[10px]",
+                        isActive
+                          ? "bg-white text-primary-dashboard dark:bg-primary-dashboard dark:text-white"
+                          : "bg-primary-dashboard text-white",
+                      )}
+                    >
+                      {waitlistCount}
+                    </Badge>
+                  )}
                 </Link>
               );
             })}

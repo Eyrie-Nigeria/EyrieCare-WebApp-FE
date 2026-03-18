@@ -49,27 +49,22 @@ export default function UsersPage() {
       header: "Role",
       render: (user) => {
         const role = user.role.toLowerCase();
-        const variant: "default" | "secondary" | "destructive" | "outline" =
-          "outline";
-        let colorClasses = "";
 
         if (role === "superadmin") {
-          colorClasses =
-            "bg-purple-500/10 text-purple-500 border-purple-500/20";
+          return (
+            <Badge className="bg-purple-500/10 text-purple-500 border-purple-500/20">
+              {role}
+            </Badge>
+          );
         } else if (role === "admin") {
-          colorClasses = "bg-blue-500/10 text-blue-500 border-blue-500/20";
-        } else {
-          colorClasses = "bg-green-500/10 text-green-500 border-green-500/20";
+          return (
+            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
+              {role}
+            </Badge>
+          );
         }
 
-        return (
-          <Badge
-            className={cn("capitalize font-black tracking-wide", colorClasses)}
-            variant={variant}
-          >
-            {role}
-          </Badge>
-        );
+        return <Badge variant="eyrie">{role}</Badge>;
       },
     },
     {
@@ -87,9 +82,7 @@ export default function UsersPage() {
       header: "Status",
       render: (user) =>
         user.is_active ? (
-          <Badge className="bg-green-500/10 text-green-500 border-green-500/20">
-            Active
-          </Badge>
+          <Badge variant="success">Active</Badge>
         ) : (
           <Badge variant="secondary">Inactive</Badge>
         ),
@@ -201,5 +194,3 @@ export default function UsersPage() {
     </div>
   );
 }
-
-import { cn } from "@/lib/cn";
