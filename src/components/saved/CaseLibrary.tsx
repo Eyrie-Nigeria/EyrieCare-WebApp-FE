@@ -66,29 +66,31 @@ export function CaseLibrary({ cases }: CaseLibraryProps) {
       </div>
 
       {/* Main List Container */}
-      <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-card-dashboard-light dark:bg-card-dashboard-dark shadow-sm overflow-hidden text-slate-900 dark:text-white">
+      <div className="rounded-[1.25rem] border border-slate-200/60 dark:border-white/5 bg-white/50 dark:bg-card-dashboard-dark/30 shadow-sm backdrop-blur-sm overflow-hidden text-slate-900 dark:text-white">
         {/* Desktop Table View */}
         <div className="hidden md:block overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 dark:bg-slate-900/40 text-xs uppercase text-text-dashboard-secondary-light dark:text-text-dashboard-secondary-dark border-b border-slate-200 dark:border-white/10">
+          <table className="w-full text-left font-sans border-collapse min-w-[800px]">
+            <thead className="bg-slate-50/40 dark:bg-white/[0.02] text-[10px] uppercase text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-white/5">
               <tr>
-                <th className="px-6 py-4 font-bold tracking-wider">
+                <th className="px-6 py-5 font-black tracking-[0.15em]">
                   Patient Details
                 </th>
-                <th className="px-6 py-4 font-bold tracking-wider">
+                <th className="px-6 py-5 font-black tracking-[0.15em]">
                   Specialty
                 </th>
-                <th className="px-6 py-4 font-bold tracking-wider">
+                <th className="px-6 py-5 font-black tracking-[0.15em]">
                   Chief Complaint
                 </th>
-                <th className="px-6 py-4 font-bold tracking-wider">Status</th>
-                <th className="px-6 py-4 font-bold tracking-wider">Date</th>
-                <th className="px-6 py-4 font-bold tracking-wider text-right">
+                <th className="px-6 py-5 font-black tracking-[0.15em]">
+                  Status
+                </th>
+                <th className="px-6 py-5 font-black tracking-[0.15em]">Date</th>
+                <th className="px-6 py-5 font-black tracking-[0.15em] text-right">
                   Action
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-white/20">
+            <tbody className="divide-y divide-slate-100/60 dark:divide-white/5">
               {currentCases.map((caseItem) => (
                 <CaseTableRow key={caseItem.id} caseItem={caseItem} />
               ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { UserCheck, Send, Filter } from "lucide-react";
+import { UserCheck, UserX, Send, Filter } from "lucide-react";
 import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 import { useUnapprovedUsers, useGrantAccess } from "@/lib/hooks/useAdmin";
@@ -70,7 +70,7 @@ export default function WaitlistPage() {
     return data;
   }, [waitlistResponse, search, roleFilter, statusFilter]);
 
-  // Pagination logic (Local for now, can be moved to API once implemented)
+  // Pagination logic
   const totalPages = Math.ceil(filteredData.length / itemsPerPage) || 1;
   const paginatedData = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -121,7 +121,7 @@ export default function WaitlistPage() {
     {
       header: "Signed Up",
       render: (entry) => (
-        <span className="font-bold text-slate-600 dark:text-slate-400">
+        <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">
           {new Intl.DateTimeFormat("en-US", {
             month: "short",
             day: "numeric",
@@ -137,31 +137,39 @@ export default function WaitlistPage() {
       header: "Status",
       render: (entry) =>
         entry.grantedAccess ? (
-          <Badge className="bg-green-500/10 text-green-500 border-green-500/20 font-black uppercase text-[10px] tracking-widest">
-            Approved
-          </Badge>
+          <Badge variant="success">Approved</Badge>
         ) : (
-          <Badge className="bg-orange-500/10 text-orange-500 border-orange-500/20 font-black uppercase text-[10px] tracking-widest">
-            Pending
-          </Badge>
+          <Badge variant="warning">Pending</Badge>
         ),
     },
     {
       header: "Actions",
       className: "text-right",
       render: (entry) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end items-center gap-2">
           {!entry.grantedAccess && (
             <button
               onClick={() => handleGrantAccess(entry.id)}
               disabled={isGranting}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dashboard/10 hover:bg-primary-dashboard text-primary-dashboard hover:text-white font-bold rounded-lg transition-all text-xs disabled:opacity-50"
+              className="group/btn h-9 px-4 bg-primary-dashboard/10 hover:bg-primary-dashboard text-primary-dashboard hover:text-white dark:text-primary-dashboard dark:hover:text-surface-dashboard-dark font-black rounded-xl transition-all text-[10px] uppercase tracking-wider disabled:opacity-50 shadow-sm shadow-primary-dashboard/5 flex items-center gap-2"
               title="Grant Access"
             >
-              <UserCheck className="w-3.5 h-3.5" />
-              Grant Access
+              <UserCheck className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
+              <span>Grant</span>
             </button>
           )}
+          <button
+            onClick={() =>
+              toast.info(
+                `${entry.grantedAccess ? "Revoke" : "Reject"} access implementation pending`,
+              )
+            }
+            className="group/btn h-9 px-4 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white font-black rounded-xl transition-all text-[10px] uppercase tracking-wider shadow-sm shadow-red-500/5 flex items-center gap-2"
+            title={entry.grantedAccess ? "Revoke Access" : "Reject Application"}
+          >
+            <UserX className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
+            <span>{entry.grantedAccess ? "Revoke" : "Reject"}</span>
+          </button>
         </div>
       ),
     },
