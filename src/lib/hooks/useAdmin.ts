@@ -194,10 +194,13 @@ export const useCreateUser = () => {
   });
 };
 
-export const useUnapprovedUsers = () => {
+export const useUnapprovedUsers = (params?: {
+  page?: number;
+  per_page?: number;
+}) => {
   return useQuery({
-    queryKey: ["unapproved-users"],
-    queryFn: () => adminService.getUnapprovedUsers(),
+    queryKey: ["unapproved-users", params],
+    queryFn: () => adminService.getUnapprovedUsers(params),
   });
 };
 
@@ -210,3 +213,40 @@ export const useGrantAccess = () => {
     },
   });
 };
+
+export const useBulkGrantAccess = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userIds: number[]) => adminService.bulkGrantAccess(userIds),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["unapproved-users"] });
+    },
+  });
+};
+
+export function useUser(id: string) {
+  return useQuery({
+    queryKey: ["admin", "user", id],
+    queryFn: () => adminService.getUserById(id),
+    enabled: !!id,
+  });
+}
+export function useUnassignedAdmins(params?: {
+  page?: number;
+  per_page?: number;
+}) {
+  return useQuery({
+    queryKey: ["admin", "users", "unassigned", "admins", params],
+    queryFn: () => adminService.getUnassignedAdmins(params),
+  });
+}
+
+export function useUnassignedUsers(params?: {
+  page?: number;
+  per_page?: number;
+}) {
+  return useQuery({
+    queryKey: ["admin", "users", "unassigned", params],
+    queryFn: () => adminService.getUnassignedUsers(params),
+  });
+}

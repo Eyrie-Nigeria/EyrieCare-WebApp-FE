@@ -10,9 +10,7 @@ import Link from "next/link";
 export default function AdminDashboard() {
   const user = useAuthStore((state) => state.user);
   const { data: orgsResponse } = useOrganizations({ per_page: 100 });
-  const myOrg = orgsResponse?.data?.items.find(
-    (o) => o.id === user?.organization_id,
-  );
+  const myOrg = orgsResponse?.data?.find((o) => o.id === user?.organization_id);
   const [isInviteOpen, setIsInviteOpen] = useState(false);
 
   return (

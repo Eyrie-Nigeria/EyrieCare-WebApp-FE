@@ -22,6 +22,8 @@ import { Organization } from "@/lib/types/admin";
 import { toast } from "sonner";
 import { CreateOrganizationModal } from "./create-modal";
 import { EditOrganizationModal } from "./edit-modal";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/cn";
 
 export default function OrganizationsPage() {
   const [page, setPage] = useState(1);
@@ -60,9 +62,9 @@ export default function OrganizationsPage() {
     {
       header: "Institution",
       render: (org) => (
-        <div className="flex items-center gap-3">
-          <div className="size-10 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center border border-slate-200 dark:border-white/10 group-hover:bg-primary-dashboard/10 transition-colors">
-            <Building2 className="w-5 h-5 text-slate-400 group-hover:text-primary-dashboard transition-colors" />
+        <div className="flex items-center gap-3 group/org">
+          <div className="size-10 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center border border-slate-200 dark:border-white/10 group-hover/org:border-primary-dashboard transition-colors">
+            <Building2 className="w-5 h-5 text-slate-400 group-hover/org:text-primary-dashboard transition-colors" />
           </div>
           <div className="flex flex-col">
             <span className="font-black text-slate-900 dark:text-white tracking-tight">
@@ -78,24 +80,42 @@ export default function OrganizationsPage() {
       ),
     },
     {
-      header: "Acronym",
-      render: (org) => <Badge variant="eyrie">{org.official_acronym}</Badge>,
+      header: "Official Acronym",
+      render: (org) => (
+        <Badge
+          variant="eyrie"
+          className="font-black uppercase tracking-widest text-[10px]"
+        >
+          {org.official_acronym}
+        </Badge>
+      ),
     },
     {
-      header: "Status",
+      header: "Identity State",
       render: (org) => {
         if (org.deleted_at) {
-          return <Badge variant="destructive">Deleted</Badge>;
+          return (
+            <Badge
+              variant="destructive"
+              className="font-black uppercase tracking-wider text-[10px]"
+            >
+              Archived
+            </Badge>
+          );
         }
         return org.is_active ? (
-          <Badge variant="success">Active</Badge>
+          <Badge variant="success" className="font-black">
+            Active
+          </Badge>
         ) : (
-          <Badge variant="secondary">Inactive</Badge>
+          <Badge variant="secondary" className="font-black opacity-50">
+            Inactive
+          </Badge>
         );
       },
     },
     {
-      header: "Activity",
+      header: "Registry Date",
       render: (org) => (
         <div className="flex flex-col">
           <span className="text-xs font-bold text-slate-500">
@@ -105,44 +125,44 @@ export default function OrganizationsPage() {
               year: "numeric",
             })}
           </span>
-          <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">
-            Registration Date
+          <span className="text-[10px] text-slate-400 uppercase font-black tracking-tighter">
+            Authorized on Platform
           </span>
         </div>
       ),
     },
     {
-      header: "Actions",
+      header: "Operations",
       className: "text-right",
       render: (org) => (
         <div className="flex justify-end gap-2">
           <Link
             href={`/superadmin/organizations/${org.id}`}
-            className="p-2 hover:bg-primary-dashboard/10 rounded-xl transition-all text-slate-400 hover:text-primary-dashboard border border-transparent hover:border-primary-dashboard/20"
-            title="View Details"
+            className="p-2.5 hover:bg-primary-dashboard/10 rounded-xl transition-all text-slate-400 hover:text-primary-dashboard border border-transparent hover:border-primary-dashboard/20"
+            title="Inspect Registry"
           >
             <Eye className="w-4 h-4" />
           </Link>
           <button
             onClick={() => setSelectedOrg(org)}
-            className="p-2 hover:bg-blue-500/10 rounded-xl transition-all text-slate-400 hover:text-blue-500 border border-transparent hover:border-blue-500/20"
-            title="Edit"
+            className="p-2.5 hover:bg-blue-500/10 rounded-xl transition-all text-slate-400 hover:text-blue-500 border border-transparent hover:border-blue-500/20"
+            title="Modify Identity"
           >
             <Edit2 className="w-4 h-4" />
           </button>
           {org.deleted_at ? (
             <button
               onClick={() => handleRestore(org)}
-              className="p-2 hover:bg-green-500/10 rounded-xl transition-all text-slate-400 hover:text-green-500 border border-transparent hover:border-green-500/20"
-              title="Restore"
+              className="p-2.5 hover:bg-green-500/10 rounded-xl transition-all text-slate-400 hover:text-green-500 border border-transparent hover:border-green-500/20"
+              title="Restore Credentials"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
           ) : (
             <button
               onClick={() => handleDelete(org)}
-              className="p-2 hover:bg-red-500/10 rounded-xl transition-all text-slate-400 hover:text-red-500 border border-transparent hover:border-red-500/20"
-              title="Delete"
+              className="p-2.5 hover:bg-red-500/10 rounded-xl transition-all text-slate-400 hover:text-red-500 border border-transparent hover:border-red-500/20"
+              title="Remove Access"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -153,40 +173,44 @@ export default function OrganizationsPage() {
   ];
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-10">
       {/* Premium Hero Section */}
-      <div className="bg-white dark:bg-card-dashboard-dark p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-2xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-8 sm:p-10 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-700">
-          <Globe className="w-48 h-48 sm:w-56 sm:h-56 -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 rotate-12" />
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white dark:bg-card-dashboard-dark p-6 sm:p-10 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-2xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group"
+      >
+        <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none">
+          <Globe className="w-64 h-64 -mr-16 -mt-16 rotate-12" />
         </div>
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 mb-2 sm:mb-3">
-              <div className="size-10 sm:size-11 rounded-xl bg-primary-dashboard flex items-center justify-center text-white shadow-xl shadow-primary-dashboard/20">
-                <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="size-12 rounded-[1.25rem] bg-primary-dashboard flex items-center justify-center text-white shadow-xl shadow-primary-dashboard/30">
+                <Building2 className="w-6 h-6" />
               </div>
-              <Badge className="bg-primary-dashboard/10 text-primary-dashboard border-none font-black text-[10px] uppercase tracking-widest px-3 py-1">
-                Network Directory
+              <Badge className="bg-primary-dashboard/10 text-primary-dashboard border-none font-black text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full">
+                Platform Network
               </Badge>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
-              Institutional <br className="hidden sm:block" />
-              Partners
+            <h1 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none uppercase">
+              Partner <br />
+              <span className="text-primary-dashboard">Directory</span>
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 max-w-md font-medium text-sm sm:text-base leading-relaxed">
-              Manage your global network of hospitals, clinics, and academic
-              sites from a unified control plane.
+            <p className="text-slate-500 dark:text-slate-400 max-w-md font-bold text-sm sm:text-base leading-relaxed">
+              Managing the high-availability network of hospital sites and
+              clinical partners.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
-            <div className="bg-slate-50 dark:bg-white/5 p-4 sm:p-5 rounded-2xl border border-slate-100 dark:border-white/5 flex items-center justify-between sm:justify-start gap-4 sm:gap-6 sm:pr-8">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6">
+            <div className="bg-slate-50 dark:bg-white/5 p-6 rounded-[2rem] border border-slate-100 dark:border-white/5 flex items-center gap-8 pr-10">
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  Total Partners
+                  Total Identities
                 </p>
-                <p className="text-2xl sm:text-2xl font-black text-slate-900 dark:text-white leading-none">
+                <p className="text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {orgsResponse?.meta?.total || 0}
                 </p>
               </div>
@@ -195,15 +219,33 @@ export default function OrganizationsPage() {
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Archives
                 </p>
-                <label className="flex items-center gap-2 cursor-pointer mt-1">
+                <label className="flex items-center gap-3 cursor-pointer mt-1 group/toggle">
+                  <div
+                    className={cn(
+                      "w-10 h-5 rounded-full p-1 transition-colors duration-300",
+                      includeDeleted
+                        ? "bg-primary-dashboard"
+                        : "bg-slate-200 dark:bg-white/10",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "size-3 bg-white dark:bg-slate-300 rounded-full transition-transform duration-300",
+                        includeDeleted ? "translate-x-5" : "translate-x-0",
+                      )}
+                    />
+                  </div>
                   <input
                     type="checkbox"
                     checked={includeDeleted}
-                    onChange={(e) => setIncludeDeleted(e.target.checked)}
-                    className="size-4 rounded border-slate-300 dark:border-white/10 text-primary-dashboard focus:ring-primary-dashboard bg-transparent transition-all"
+                    onChange={(e) => {
+                      setIncludeDeleted(e.target.checked);
+                      setPage(1);
+                    }}
+                    className="hidden"
                   />
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                    Show All
+                  <span className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest">
+                    Include
                   </span>
                 </label>
               </div>
@@ -211,34 +253,45 @@ export default function OrganizationsPage() {
 
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="px-6 sm:px-7 py-3.5 sm:py-4 bg-primary-dashboard text-white dark:text-surface-dashboard-dark font-black rounded-2xl hover:bg-primary-dashboard-hover transition-all shadow-2xl shadow-primary-dashboard/30 hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group/btn text-sm sm:text-base"
+              className="px-8 py-5 bg-primary-dashboard text-white dark:text-surface-dashboard-dark font-black rounded-2xl hover:bg-primary-dashboard-hover transition-all shadow-2xl shadow-primary-dashboard/30 hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group/btn text-xs uppercase tracking-widest"
             >
-              <Plus className="w-5 h-5 sm:w-5.5 sm:h-5.5 group-hover/btn:rotate-90 transition-transform duration-500" />
-              New Organization
+              <Plus className="w-5 h-5 group-hover/btn:rotate-90 transition-transform duration-500" />
+              New Identity
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Organizations Grid/Table Section */}
-      <div className="space-y-6">
-        <DataTable
-          data={orgsResponse?.data?.items || []}
-          columns={columns}
-          isLoading={isLoading}
-          pagination={{
-            currentPage: page,
-            totalPages: orgsResponse?.meta?.total_pages || 1,
-            onPageChange: setPage,
-          }}
-          search={{
-            value: search,
-            onChange: setSearch,
-            placeholder: "Global search by name, acronym or slug...",
-          }}
-          emptyMessage="No institutional partners match your current filters."
-        />
-      </div>
+      {/* Organizations Table Section */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${search}-${includeDeleted}-${page}`}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+        >
+          <DataTable
+            data={orgsResponse?.data || []}
+            columns={columns}
+            isLoading={isLoading}
+            pagination={{
+              currentPage: page,
+              totalPages: orgsResponse?.meta?.total_pages || 1,
+              onPageChange: setPage,
+            }}
+            search={{
+              value: search,
+              onChange: (val) => {
+                setSearch(val);
+                setPage(1);
+              },
+              placeholder: "Filter partners by name or slug...",
+            }}
+            emptyMessage="No institutional identities match your current registry filters."
+          />
+        </motion.div>
+      </AnimatePresence>
 
       <CreateOrganizationModal
         isOpen={isCreateModalOpen}

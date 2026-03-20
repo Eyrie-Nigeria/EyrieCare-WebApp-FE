@@ -19,8 +19,7 @@ export function ProfileInfoCard() {
   const user = profileResponse?.data;
   const { data: orgsResponse } = useOrganizations({ per_page: 100 });
   const myOrg =
-    orgsResponse?.data?.items?.find((o) => o.id === user?.organization_id) ??
-    null;
+    orgsResponse?.data?.find((o) => o.id === user?.organization_id) ?? null;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

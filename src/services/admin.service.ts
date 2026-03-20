@@ -4,7 +4,6 @@ import {
   Organization,
   CreateOrganizationPayload,
   UpdateOrganizationPayload,
-  PaginatedResponse,
   CreateUserPayload,
   BulkUserPayload,
   WaitlistEntry,
@@ -17,7 +16,7 @@ export const adminService = {
     per_page?: number;
     search?: string;
     include_deleted?: boolean;
-  }): Promise<ApiResponse<PaginatedResponse<Organization>>> => {
+  }): Promise<ApiResponse<Organization[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
@@ -25,7 +24,7 @@ export const adminService = {
     if (params?.search) queryParams.set("search", params.search);
     if (params?.include_deleted) queryParams.set("include_deleted", "true");
 
-    return apiClient<ApiResponse<PaginatedResponse<Organization>>>(
+    return apiClient<ApiResponse<Organization[]>>(
       `/organizations?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -35,14 +34,14 @@ export const adminService = {
     q: string;
     page?: number;
     per_page?: number;
-  }): Promise<ApiResponse<PaginatedResponse<Organization>>> => {
+  }): Promise<ApiResponse<Organization[]>> => {
     const queryParams = new URLSearchParams();
     queryParams.set("q", params.q);
     if (params.page) queryParams.set("page", params.page.toString());
     if (params.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<Organization>>>(
+    return apiClient<ApiResponse<Organization[]>>(
       `/organizations/search?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -101,7 +100,7 @@ export const adminService = {
     role?: string;
     organization_id?: string;
     search?: string;
-  }): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  }): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
@@ -111,23 +110,22 @@ export const adminService = {
       queryParams.set("organization_id", params.organization_id);
     if (params?.search) queryParams.set("search", params.search);
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
-      `/users?${queryParams.toString()}`,
-      { method: "GET" },
-    );
+    return apiClient<ApiResponse<User[]>>(`/users?${queryParams.toString()}`, {
+      method: "GET",
+    });
   },
 
   // Admins in "my-organization" (Admin only)
   getMyOrganizationAdmins: async (params?: {
     page?: number;
     per_page?: number;
-  }): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  }): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
+    return apiClient<ApiResponse<User[]>>(
       `/organizations/my-organization/admins?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -137,13 +135,13 @@ export const adminService = {
   getMyOrganizationUsers: async (params?: {
     page?: number;
     per_page?: number;
-  }): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  }): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
+    return apiClient<ApiResponse<User[]>>(
       `/organizations/my-organization/users?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -153,13 +151,13 @@ export const adminService = {
   getOrganizationAdmins: async (
     orgId: string,
     params?: { page?: number; per_page?: number },
-  ): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  ): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
+    return apiClient<ApiResponse<User[]>>(
       `/organizations/${orgId}/admins?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -169,13 +167,13 @@ export const adminService = {
   getOrganizationUsers: async (
     orgId: string,
     params?: { page?: number; per_page?: number },
-  ): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  ): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     if (params?.page) queryParams.set("page", params.page.toString());
     if (params?.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
+    return apiClient<ApiResponse<User[]>>(
       `/organizations/${orgId}/users?${queryParams.toString()}`,
       { method: "GET" },
     );
@@ -186,15 +184,45 @@ export const adminService = {
     q: string;
     page?: number;
     per_page?: number;
-  }): Promise<ApiResponse<PaginatedResponse<User>>> => {
+  }): Promise<ApiResponse<User[]>> => {
     const queryParams = new URLSearchParams();
     queryParams.set("q", params.q);
     if (params.page) queryParams.set("page", params.page.toString());
     if (params.per_page)
       queryParams.set("per_page", params.per_page.toString());
 
-    return apiClient<ApiResponse<PaginatedResponse<User>>>(
+    return apiClient<ApiResponse<User[]>>(
       `/users/me/search?${queryParams.toString()}`,
+      { method: "GET" },
+    );
+  },
+
+  getUnassignedAdmins: async (params?: {
+    page?: number;
+    per_page?: number;
+  }): Promise<ApiResponse<User[]>> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.set("page", params.page.toString());
+    if (params?.per_page)
+      queryParams.set("per_page", params.per_page.toString());
+
+    return apiClient<ApiResponse<User[]>>(
+      `/users/unassigned/admins?${queryParams.toString()}`,
+      { method: "GET" },
+    );
+  },
+
+  getUnassignedUsers: async (params?: {
+    page?: number;
+    per_page?: number;
+  }): Promise<ApiResponse<User[]>> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.set("page", params.page.toString());
+    if (params?.per_page)
+      queryParams.set("per_page", params.per_page.toString());
+
+    return apiClient<ApiResponse<User[]>>(
+      `/users/unassigned?${queryParams.toString()}`,
       { method: "GET" },
     );
   },
@@ -234,19 +262,38 @@ export const adminService = {
     });
   },
 
+  getUserById: async (id: string): Promise<ApiResponse<User>> => {
+    return apiClient<ApiResponse<User>>(`/users/${id}`, {
+      method: "GET",
+    });
+  },
+
   // --- Waitlist Management ---
-  getUnapprovedUsers: async (): Promise<ApiResponse<WaitlistEntry[]>> => {
+  getUnapprovedUsers: async (params?: {
+    page?: number;
+    per_page?: number;
+  }): Promise<ApiResponse<WaitlistEntry[]>> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.set("page", params.page.toString());
+    if (params?.per_page)
+      queryParams.set("per_page", params.per_page.toString());
+
     return apiClient<ApiResponse<WaitlistEntry[]>>(
-      "/superadmin/unapproved-users",
-      {
-        method: "GET",
-      },
+      `/superadmin/unapproved-users?${queryParams.toString()}`,
+      { method: "GET" },
     );
   },
 
   grantAccess: async (userId: number): Promise<ApiResponse<User>> => {
     return apiClient<ApiResponse<User>>(`/superadmin/grant-access/${userId}`, {
       method: "POST",
+    });
+  },
+
+  bulkGrantAccess: async (userIds: number[]): Promise<ApiResponse<User[]>> => {
+    return apiClient<ApiResponse<User[]>>("/superadmin/grant-access/bulk", {
+      method: "POST",
+      body: JSON.stringify({ user_ids: userIds }),
     });
   },
 };
