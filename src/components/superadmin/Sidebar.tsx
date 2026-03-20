@@ -43,6 +43,11 @@ const navItems: NavItem[] = [
   },
   { label: "Users", href: "/superadmin/users", icon: Users },
   { label: "Waitlist", href: "/superadmin/waitlist", icon: Clock },
+  {
+    label: "Specialty Registry",
+    href: "/superadmin/specialties",
+    icon: Stethoscope,
+  },
 ];
 
 export function Sidebar({ className, onClose }: SidebarProps) {

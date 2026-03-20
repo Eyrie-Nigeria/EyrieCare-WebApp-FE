@@ -1,11 +1,17 @@
 "use client";
 
 import React from "react";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, FolderKanban } from "lucide-react";
 import { SpecialtyCard } from "./SpecialtyCard";
 import { Pagination } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { SpecialtyGridProps } from "./types";
+
+// Adding totalItems to props if we want to show it in the UI
+interface ExtendedSpecialtyGridProps extends SpecialtyGridProps {
+  totalItems?: number;
+  totalPages?: number;
+}
 
 export function SpecialtyGrid({
   specialties,
@@ -13,14 +19,8 @@ export function SpecialtyGrid({
   onSearchChange,
   currentPage,
   onPageChange,
-}: SpecialtyGridProps) {
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(specialties.length / itemsPerPage);
-  const currentSpecialties = specialties.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
+  totalPages = 1,
+}: ExtendedSpecialtyGridProps) {
   return (
     <div className="flex flex-col gap-6 md:gap-10">
       {/* Toolbar */}
@@ -31,7 +31,7 @@ export function SpecialtyGrid({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search specialties or condition tags..."
+            placeholder="Search specialties or clinical categories..."
             className="w-full bg-white dark:bg-card-dashboard-dark/50 border border-slate-200 dark:border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm font-medium focus:ring-2 ring-primary-dashboard/10 outline-none transition-all dark:text-white placeholder:text-slate-400"
           />
         </div>
@@ -45,11 +45,27 @@ export function SpecialtyGrid({
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 transition-all">
-        {currentSpecialties.map((spec, index) => (
-          <SpecialtyCard key={spec.id} specialty={spec} index={index} />
-        ))}
-      </div>
+      {specialties.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 transition-all">
+          {specialties.map((spec, index) => (
+            <SpecialtyCard key={spec.id} specialty={spec} index={index} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center p-20 text-center gap-4 bg-slate-50 dark:bg-card-dashboard-dark/30 rounded-[2.5rem] border border-dashed border-slate-200 dark:border-white/5">
+          <div className="size-16 rounded-2xl bg-white dark:bg-white/5 flex items-center justify-center text-slate-400 shadow-sm">
+            <FolderKanban className="w-8 h-8 opacity-20" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              No specialties found
+            </h3>
+            <p className="text-sm text-slate-500 max-w-xs">
+              We couldn't find any specialties matching your search criteria.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Pagination Integration */}
       {totalPages > 1 && (

@@ -3,12 +3,16 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Stethoscope } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
 import { SpecialtyCardProps } from "./types";
 
 export function SpecialtyCard({ specialty, index }: SpecialtyCardProps) {
+  // Use 100% as default if progress is missing, or 0 if Not Started
+  const progress = specialty.progress ?? 0;
+  const activeCases = specialty.activeCases ?? 0;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -25,28 +29,44 @@ export function SpecialtyCard({ specialty, index }: SpecialtyCardProps) {
           <div
             className={cn(
               "absolute -top-12 -right-12 size-24 md:size-32 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-all duration-700",
-              specialty.bg,
+              "bg-primary-dashboard/20",
             )}
           />
 
           <div
             className={cn(
-              "size-14 md:size-18 rounded-2xl flex items-center justify-center mb-5 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-xl shadow-slate-200/50 dark:shadow-none",
-              specialty.bg,
-              specialty.color,
+              "size-14 md:size-18 rounded-2xl flex items-center justify-center mb-5 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden",
+              "bg-primary-dashboard/10 text-primary-dashboard",
             )}
           >
-            <specialty.icon className="w-7 h-7 md:w-9 md:h-9" />
+            {specialty.image_url ? (
+              <img
+                src={specialty.image_url}
+                alt={specialty.name}
+                className="w-full h-full object-cover p-1"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "/placeholder-specialty.png"; // Fallback URL
+                }}
+              />
+            ) : (
+              <Stethoscope className="w-7 h-7 md:w-9 md:h-9" />
+            )}
           </div>
 
-          <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-1.5 tracking-tight group-hover:text-primary-dashboard transition-colors duration-300 min-h-[3.5rem] flex items-center justify-center">
+          <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-1.5 tracking-tight group-hover:text-primary-dashboard transition-colors duration-300 min-h-[3.5rem] flex items-center justify-center line-clamp-2">
             {specialty.name}
           </h3>
 
           <div className="flex items-center gap-2 mb-5">
-            <div className={cn("size-2 rounded-full", specialty.statusColor)} />
+            <div
+              className={cn(
+                "size-2 rounded-full",
+                progress > 0 ? "bg-primary-dashboard" : "bg-slate-400",
+              )}
+            />
             <span className="text-[10px] md:text-xs font-bold text-slate-600 dark:text-text-dashboard-secondary-dark uppercase tracking-widest leading-none">
-              {specialty.activeCases} {specialty.statusText}
+              {activeCases} {activeCases === 1 ? "Active Case" : "Active Cases"}
             </span>
           </div>
 
@@ -54,20 +74,20 @@ export function SpecialtyCard({ specialty, index }: SpecialtyCardProps) {
           <div className="w-full mt-auto pt-5 border-t border-slate-100 dark:border-white/5 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Progress
+                Rotation Progress
               </span>
               <span className="text-[9px] md:text-[10px] font-bold text-primary-dashboard">
-                {specialty.progress}%
+                {progress}%
               </span>
             </div>
             <div className="w-full bg-slate-100 dark:bg-white/5 h-1.5 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: `${specialty.progress}%` }}
+                animate={{ width: `${progress}%` }}
                 transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
                 className={cn(
                   "h-full rounded-full transition-all",
-                  specialty.progress === 100
+                  progress === 100
                     ? "bg-primary-dashboard"
                     : "bg-primary-dashboard/60",
                 )}

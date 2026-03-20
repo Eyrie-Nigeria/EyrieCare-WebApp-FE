@@ -1,21 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { SPECIALTIES } from "@/lib/data/specialties";
-import { ChevronRight, Calendar, Plus } from "lucide-react";
+import { ChevronRight, Calendar, Plus, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SpecialtyGrid } from "@/components/specialties";
+import { useSpecialties } from "@/lib/hooks/useSpecialties";
 
 export default function SpecialtyPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredSpecialties = SPECIALTIES.filter(
-    (spec) =>
-      spec.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      spec.desc.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const { data: specialtiesResponse, isLoading } = useSpecialties({
+    page: currentPage,
+    per_page: 8,
+    name: searchQuery || undefined,
+  });
+
+  const specialties = specialtiesResponse?.data?.data || [];
 
   return (
     <div className="flex flex-col gap-6 md:gap-10 pb-20 font-sans">
@@ -58,13 +60,26 @@ export default function SpecialtyPage() {
         </div>
       </div>
 
-      <SpecialtyGrid
-        specialties={filteredSpecialties}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center p-20 gap-4">
+          <Loader2 className="w-8 h-8 text-primary-dashboard animate-spin" />
+          <p className="text-sm font-medium text-slate-500">
+            Loading your clinical rotations...
+          </p>
+        </div>
+      ) : (
+        <SpecialtyGrid
+          specialties={specialties}
+          searchQuery={searchQuery}
+          onSearchChange={(val) => {
+            setSearchQuery(val);
+            setCurrentPage(1);
+          }}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          totalPages={specialtiesResponse?.meta?.total_pages || 1}
+        />
+      )}
 
       <footer className="mt-12 py-10 text-center border-t border-slate-100 dark:border-white/5 transition-all">
         <p className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-[0.2em]">

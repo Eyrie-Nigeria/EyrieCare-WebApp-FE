@@ -10,6 +10,8 @@ import {
   BarChart3,
   Stethoscope,
   ChevronLeft,
+  FileText,
+  Link as LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
@@ -24,6 +26,9 @@ interface SpecialtyHubProps {
 export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
   const router = useRouter();
 
+  const progress = specialty.progress ?? 0;
+  const activeCases = specialty.activeCases ?? 0;
+
   return (
     <div className="flex flex-col gap-8">
       {/* Header Section */}
@@ -31,12 +36,19 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
         <div className="flex items-center gap-4">
           <div
             className={cn(
-              "size-12 md:size-14 rounded-2xl flex items-center justify-center shadow-lg border border-white/10 shrink-0",
-              specialty.bg,
-              specialty.color,
+              "size-12 md:size-14 rounded-2xl flex items-center justify-center shadow-lg border border-white/10 shrink-0 overflow-hidden",
+              "bg-primary-dashboard/10 text-primary-dashboard",
             )}
           >
-            <specialty.icon className="w-6 h-6 md:w-7 h-7" />
+            {specialty.image_url ? (
+              <img
+                src={specialty.image_url}
+                alt={specialty.name}
+                className="w-full h-full object-cover p-1"
+              />
+            ) : (
+              <Stethoscope className="w-6 h-6 md:w-7 h-7" />
+            )}
           </div>
           <div>
             <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -44,8 +56,7 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
               <span className="text-primary-dashboard">Hub</span>
             </h1>
             <p className="text-slate-500 dark:text-text-dashboard-secondary-dark text-xs md:text-sm font-medium opacity-80">
-              {specialty.activeCases} Clinical Encounters • {specialty.progress}
-              % Logged
+              {activeCases} Clinical Encounters • {progress}% Logged
             </p>
           </div>
         </div>
@@ -105,8 +116,7 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
                   Case Library
                 </h3>
                 <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mb-8 opacity-80">
-                  Review and study your documented {specialty.activeCases}{" "}
-                  records.
+                  Review and study your documented {activeCases} records.
                 </p>
                 <div className="mt-auto flex items-center gap-2 font-black text-xs uppercase tracking-widest text-primary-dashboard">
                   Open Library{" "}
@@ -130,14 +140,14 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
                 </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-black text-primary-dashboard">
-                    {specialty.progress}
+                    {progress}
                   </span>
                   <span className="text-lg font-black text-slate-400">%</span>
                 </div>
                 <div className="w-full bg-slate-100 dark:bg-white/5 h-1.5 rounded-full overflow-hidden mt-1">
                   <div
                     className="bg-primary-dashboard h-full rounded-full"
-                    style={{ width: `${specialty.progress}%` }}
+                    style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
@@ -147,7 +157,7 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
                 </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-black text-slate-900 dark:text-white">
-                    {specialty.activeCases}
+                    {activeCases}
                   </span>
                   <span className="text-sm font-bold text-slate-400">/ 20</span>
                 </div>
@@ -179,22 +189,33 @@ export function SpecialtyHub({ specialty }: SpecialtyHubProps) {
               </h3>
             </div>
             <div className="space-y-2">
-              {[
-                "Clinical Guidelines",
-                "Drug Formulary",
-                "Anatomy Atlas",
-                "Rotation Schedule",
-              ].map((resource) => (
-                <div
-                  key={resource}
-                  className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all cursor-pointer group border border-transparent hover:border-slate-200 dark:hover:border-white/10"
-                >
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary-dashboard">
-                    {resource}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-primary-dashboard group-hover:translate-x-0.5 transition-all" />
-                </div>
-              ))}
+              {specialty.resources && specialty.resources.length > 0 ? (
+                specialty.resources.map((resource) => (
+                  <a
+                    key={resource.id}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all cursor-pointer group border border-transparent hover:border-slate-200 dark:hover:border-white/10"
+                  >
+                    <div className="flex items-center gap-3">
+                      {resource.url.endsWith(".pdf") ? (
+                        <FileText className="w-4 h-4 text-slate-400 group-hover:text-primary-dashboard" />
+                      ) : (
+                        <LinkIcon className="w-4 h-4 text-slate-400 group-hover:text-primary-dashboard" />
+                      )}
+                      <span className="text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary-dashboard">
+                        {resource.title}
+                      </span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-primary-dashboard group-hover:translate-x-0.5 transition-all" />
+                  </a>
+                ))
+              ) : (
+                <p className="text-xs font-medium text-slate-400 italic py-4 text-center">
+                  No resources available for this specialty.
+                </p>
+              )}
             </div>
             <Button
               variant="ghost"

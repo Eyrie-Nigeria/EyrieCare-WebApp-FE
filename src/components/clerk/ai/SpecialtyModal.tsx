@@ -60,7 +60,7 @@ export function SpecialtyModal({
                   spec.color,
                 )}
               >
-                <spec.icon className="w-6 h-6" />
+                {spec.icon && <spec.icon className="w-6 h-6" />}
               </div>
               <div className="flex-1">
                 <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-primary-dashboard transition-colors">
