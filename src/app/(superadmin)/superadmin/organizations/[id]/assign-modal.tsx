@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { X, Search, Loader2, UserPlus, CheckCircle2 } from "lucide-react";
-import { useUsers, useBulkAssignUsers } from "@/lib/hooks/useAdmin";
+import { useUnassignedUsers, useBulkAssignUsers } from "@/lib/hooks/useAdmin";
 import { Badge } from "@/components/ui/badge";
 import { User } from "@/lib/types/auth";
 import { toast } from "sonner";
@@ -25,17 +25,12 @@ export function AssignMemberModal({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   // Fetch users who are NOT assigned to any organization
-  const { data: usersRes, isLoading } = useUsers({
-    search,
+  const { data: usersRes, isLoading } = useUnassignedUsers({
     page: 1,
-    per_page: 50,
-    // The backend might not have a strict "is_unassigned" filter,
-    // but typically organization_id: null would be the way.
-    // For now we'll fetch all and maybe filter or just show all for assignment.
+    per_page: 100, // Fetch more for selection
   });
 
-  const unassignedUsers =
-    usersRes?.data?.items?.filter((u: User) => !u.organization_id) || [];
+  const unassignedUsers = usersRes?.data || [];
 
   const { mutate: bulkAssign, isPending } = useBulkAssignUsers();
 

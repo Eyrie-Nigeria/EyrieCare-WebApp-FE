@@ -36,10 +36,6 @@ export interface BulkUserPayload {
   user_ids: string[];
 }
 
-export interface PaginatedResponse<T> {
-  items: T[];
-}
-
 export interface WaitlistEntry {
   id: number;
   email: string;

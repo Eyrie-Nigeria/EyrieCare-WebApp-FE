@@ -12,11 +12,11 @@ export default function SuperAdminDashboard() {
 
   // Fetch organizations for the admin creation modal
   const { data: orgsResponse } = useOrganizations({ page: 1, per_page: 100 });
-  const { data: waitlistResponse } = useUnapprovedUsers();
+  const { data: waitlistResponse } = useUnapprovedUsers({ per_page: 1 });
 
-  const organizations = orgsResponse?.data?.items || [];
+  const organizations = orgsResponse?.data || [];
   // Use API count if available, otherwise 0
-  const waitlistCount = waitlistResponse?.data?.length || 0;
+  const waitlistCount = waitlistResponse?.meta?.total ?? 0;
 
   return (
     <div className="space-y-8">

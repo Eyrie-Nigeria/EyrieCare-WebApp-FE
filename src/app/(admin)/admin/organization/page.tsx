@@ -34,9 +34,7 @@ export default function MyOrganizationPage() {
 
   // Fetch the organization details
   const { data: orgsResponse } = useOrganizations({ per_page: 100 });
-  const myOrg = orgsResponse?.data?.items.find(
-    (o) => o.id === user?.organization_id,
-  );
+  const myOrg = orgsResponse?.data?.find((o) => o.id === user?.organization_id);
 
   // Use specialized hooks for Admins vs Users
   const adminsQuery = useMyOrganizationAdmins({ page, per_page: 10 });
@@ -279,7 +277,7 @@ export default function MyOrganizationPage() {
 
         <div className="bg-white dark:bg-card-dashboard-dark rounded-[2.5rem] border border-slate-200 dark:border-white/5 overflow-hidden shadow-2xl shadow-slate-200/50 dark:shadow-none p-2">
           <DataTable
-            data={membersResponse?.data?.items || []}
+            data={membersResponse?.data || []}
             columns={columns}
             isLoading={isLoading}
             selection={

@@ -309,7 +309,7 @@ export default function OrganizationDetailPage() {
         <div className="p-8">
           {activeTab === "admins" ? (
             <DataTable
-              data={adminsRes?.data?.items || []}
+              data={adminsRes?.data || []}
               columns={userColumns}
               isLoading={isLoadingAdmins}
               pagination={{
@@ -321,7 +321,7 @@ export default function OrganizationDetailPage() {
             />
           ) : (
             <DataTable
-              data={usersRes?.data?.items || []}
+              data={usersRes?.data || []}
               columns={userColumns}
               isLoading={isLoadingUsers}
               pagination={{

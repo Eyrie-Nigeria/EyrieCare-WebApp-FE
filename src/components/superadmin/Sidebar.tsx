@@ -49,8 +49,8 @@ export function Sidebar({ className, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { mutate: logout, isPending } = useLogout();
   const router = useRouter();
-  const { data: waitlistResponse } = useUnapprovedUsers();
-  const waitlistCount = waitlistResponse?.data?.length ?? 5; // Fallback to mock for design preview
+  const { data: waitlistResponse } = useUnapprovedUsers({ per_page: 1 });
+  const waitlistCount = waitlistResponse?.meta?.total ?? 0;
 
   const handleLogout = () => {
     logout(undefined, {
