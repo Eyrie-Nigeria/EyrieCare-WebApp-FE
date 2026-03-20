@@ -32,6 +32,11 @@ export interface SidebarProps {
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "My Organization", href: "/admin/organization", icon: Building2 },
+  {
+    label: "Specialty Registry",
+    href: "/admin/specialties",
+    icon: Stethoscope,
+  },
 ];
 
 export function Sidebar({ className, onClose }: SidebarProps) {

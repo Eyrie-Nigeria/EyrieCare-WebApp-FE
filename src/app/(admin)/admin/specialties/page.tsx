@@ -7,9 +7,8 @@ import {
   MoreVertical,
   Edit,
   Trash2,
-  Shield,
-  LayoutGrid,
   Activity,
+  History,
 } from "lucide-react";
 import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
@@ -29,8 +28,13 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/cn";
 import { motion } from "framer-motion";
+import { useAuthStore } from "@/lib/store/useAuthStore";
 
-export default function SuperAdminSpecialtiesPage() {
+export default function AdminSpecialtiesPage() {
+  const user = useAuthStore((state) => state.user);
+  const isOrgAdmin = !!user?.organization_id;
+  const portalName = isOrgAdmin ? "Organization" : "General Platform";
+
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("");
@@ -128,22 +132,6 @@ export default function SuperAdminSpecialtiesPage() {
       },
     },
     {
-      header: "Institutional Presence",
-      render: (spec) => (
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <Shield className="w-3.5 h-3.5 text-primary-dashboard" />
-            <span className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase">
-              {spec.organization_id ? "Managed Org" : "Global Asset"}
-            </span>
-          </div>
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-            Platform Availability
-          </span>
-        </div>
-      ),
-    },
-    {
       header: "Resource Count",
       render: (spec) => (
         <Badge
@@ -207,42 +195,22 @@ export default function SuperAdminSpecialtiesPage() {
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <div className="size-10 rounded-2xl bg-primary-dashboard/10 flex items-center justify-center text-primary-dashboard border border-primary-dashboard/20">
-              <LayoutGrid className="w-5 h-5" />
+              <History className="w-5 h-5" />
             </div>
             <Badge className="bg-primary-dashboard/10 text-primary-dashboard border-none font-black text-[10px] uppercase tracking-[0.2em] px-3 py-1">
-              Management Portal
+              Admin: {portalName}
             </Badge>
           </div>
           <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase leading-none">
             Specialty <span className="text-primary-dashboard">Registry</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-bold text-sm tracking-tight flex items-center gap-2">
-            Managing the global medical discipline library and clinical
-            resources.
+            Managing your {isOrgAdmin ? "organization's" : "platform-level"}{" "}
+            clinical modules.
           </p>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-6 bg-white dark:bg-card-dashboard-dark/30 p-4 px-8 rounded-3xl border border-slate-200/60 dark:border-white/5 shadow-sm">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                Total Active
-              </span>
-              <span className="text-xl font-black text-slate-900 dark:text-white">
-                {specialtiesMetadata?.total || 0}
-              </span>
-            </div>
-            <div className="w-px h-8 bg-slate-100 dark:bg-white/10" />
-            <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                Global Assets
-              </span>
-              <span className="text-xl font-black text-primary-dashboard">
-                {specialtiesData.filter((s) => !s.organization_id).length}
-              </span>
-            </div>
-          </div>
-
           <button
             onClick={() => {
               setSelectedSpecialty(null);
@@ -325,7 +293,7 @@ export default function SuperAdminSpecialtiesPage() {
             totalPages: specialtiesMetadata?.total_pages || 1,
             onPageChange: setPage,
           }}
-          emptyMessage="No clinical specialties found in the registry."
+          emptyMessage="No clinical specialties found for your account."
         />
       </motion.div>
 
